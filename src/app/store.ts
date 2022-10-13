@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import filterReducer from '../features/counter/filterSlice';
+import fileSlice from '../features/counter/fileSlice';
 
 const store = configureStore({
   reducer: {
     counter: filterReducer,
+    file: fileSlice,
   },
 });
 
