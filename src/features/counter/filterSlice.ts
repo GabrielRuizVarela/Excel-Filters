@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../../app/store';
+// import type { RootState } from '../../app/store';
 
 interface FilterState {
   type: string;
@@ -31,7 +31,7 @@ export const filterSlice = createSlice({
     },
     updateSheet: (state, action) => {
       state.sheet = action.payload;
-    }
+    },
   },
 });
 
