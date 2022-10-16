@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import styled from 'styled-components';
-import excelJS from 'exceljs';
+import React from 'react';
+// import styled from 'styled-components';
+// import excelJS from 'exceljs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   updateRange,
@@ -9,19 +9,20 @@ import {
   updateSheet,
 } from '../features/counter/filterSlice';
 import LoadFile from './LoadFile';
+import FileDisplay from './FileDisplay';
 
-const DropFileDiv = styled.div`
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  z-index: -1;
-`;
+// const DropFileDiv = styled.div`
+//   width: 100vw;
+//   height: 100vh;
+//   position: fixed;
+//   top: 0px;
+//   left: 0px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   opacity: 0;
+//   z-index: -1;
+// `;
 
 function Filter() {
   const filterType = useAppSelector((state) => state.counter.type);
@@ -33,7 +34,7 @@ function Filter() {
 
   return (
     <div className="Filter">
-      <LoadFile/>
+      <LoadFile />
       <h1>Filter</h1>
       <label htmlFor="filter-options-select">
         <select
@@ -72,6 +73,7 @@ function Filter() {
           onChange={(e) => dispatch(updateSheet(e.target.value))}
         />
       </label>
+      <FileDisplay />
     </div>
   );
 }

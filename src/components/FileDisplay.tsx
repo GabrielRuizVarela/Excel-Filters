@@ -1,17 +1,32 @@
-import React from "react";
-import * as XLSX from "xlsx";
-import { useAppSelector } from "../app/hooks";
+import React from 'react';
+import * as XLSX from 'xlsx';
+import { useAppSelector } from '../app/hooks';
+import filter from '../utils/filterFunctions';
 
 export default function FileDisplay() {
-  const wb = useAppSelector((state) => state.file.woorkbook);
+  const wb = useAppSelector((state) => state.file.workbook);
+  const filterType = useAppSelector((state) => state.counter.type);
+  const filterValue = useAppSelector((state) => state.counter.value);
+  const filterRange = useAppSelector((state) => state.counter.range);
+  const filterSheet = useAppSelector((state) => state.counter.sheet);
+  const filterSpec = {
+    type: filterType,
+    value: filterValue,
+    range: filterRange,
+    sheet: filterSheet,
+  };
   return (
     <div>
       {wb ? (
-        // eslint-disable-next-line react/no-danger
-        <div dangerouslySetInnerHTML={{ __html: (XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]])) }} />
-        // XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]])
+        <div
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            __html: XLSX.utils.sheet_to_html(filter(wb, filterSpec)||wb.Sheets[wb.SheetNames[0]]),
+          }}
+        />
       ) : (
-          <div>Not Loaded</div>
+        // XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]])
+        <div>Not Loaded</div>
       )}
     </div>
   );

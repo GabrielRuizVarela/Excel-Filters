@@ -4,7 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import xlsx from 'xlsx';
 
 interface FileState {
-  woorkbook: xlsx.WorkBook | null;
+  workbook: xlsx.WorkBook | null;
 }
 const initialState = {
   woorbook: null,
@@ -15,7 +15,7 @@ export const fileSlice = createSlice({
   initialState,
   reducers: {
     updateFile: (state, action: PayloadAction<xlsx.WorkBook>) => {
-      state.woorkbook = action.payload;
+      state.workbook = action.payload;
     },
   },
 });
