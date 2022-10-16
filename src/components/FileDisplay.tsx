@@ -15,13 +15,23 @@ export default function FileDisplay() {
     range: filterRange,
     sheet: filterSheet,
   };
+  const filteredData = filter(wb, filterSpec);
+  let dataHtml = '<div></div>';
+  try {
+    // if filteredData is empty
+    if (filteredData?.['!ref']) {
+      dataHtml = XLSX.utils.sheet_to_html(filteredData);
+    }
+  } catch (e) {
+    console.log(e);
+  }
   return (
     <div>
       {wb ? (
         <div
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
-            __html: XLSX.utils.sheet_to_html(filter(wb, filterSpec)||wb.Sheets[wb.SheetNames[0]]),
+            __html: dataHtml,
           }}
         />
       ) : (
