@@ -57,8 +57,10 @@ function filteredSheet(ws: XLSX.WorkSheet, filterProp: FilterInterface) {
       // return true if some cell in row is equal to filter.value
       return row.some((cell) => cell === filterProp.value);
     }
-    if (filterProp.type === 'is not equal to') {
-      return rowString !== filterProp.value;
+    if (filterProp.type === 'regex') {
+      if (filterProp.value === '') return true;
+      const regex = new RegExp(filterProp.value);
+      return rowString.match(regex);
     }
     return row;
   });

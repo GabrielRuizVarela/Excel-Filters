@@ -48,6 +48,7 @@ function Filter() {
           <option value="contains">Contains</option>
           <option value="does not contain">Does not contain</option>
           <option value="match">Match</option>
+          <option value="regex">Regex</option>
         </select>
         <input
           type="text"
