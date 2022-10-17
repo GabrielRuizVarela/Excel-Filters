@@ -1,5 +1,4 @@
 import * as XLSX from 'xlsx';
-import { useAppSelector } from '../app/hooks';
 
 function fillEmptySlotsWithNull(arr: XLSX.CellObject[]) {
   return Array.from(arr, (_, i) => {
@@ -36,6 +35,35 @@ function splitSheetAtRange(
   return result;
 }
 
+function filteredSheet(ws: XLSX.WorkSheet, filterProp: FilterInterface) {
+  // type rowType =  string[];
+  type FilterSheet = string[][];
+
+  // find if splitedSheet has a row that contains the value of filter.value
+  const filtered: FilterSheet = XLSX.utils.sheet_to_json(ws, {
+    header: 1,
+  });
+  return filtered.filter((row) => {
+    const rowString = row.join(' ');
+    // console.log(row)
+    if (filterProp.type === 'contains') {
+      return rowString.includes(filterProp.value);
+    }
+    if (filterProp.type === 'does not contain') {
+      return !rowString.includes(filterProp.value);
+    }
+    if (filterProp.type === 'match') {
+      if (filterProp.value === '') return true;
+      // return true if some cell in row is equal to filter.value
+      return row.some((cell) => cell === filterProp.value);
+    }
+    if (filterProp.type === 'is not equal to') {
+      return rowString !== filterProp.value;
+    }
+    return row;
+  });
+}
+
 export default function filterData(
   wb: XLSX.WorkBook | null,
   filter: FilterInterface,
@@ -64,30 +92,6 @@ export default function filterData(
   }
   const splitedSheet = splitSheetAtRange(rows, range) || ws;
 
-  // find if splitedSheet has a row that contains the value of filter.value
-  const filteredSheet = XLSX.utils
-    .sheet_to_json(splitedSheet, {
-      header: 1,
-    })
-    .filter((row) => {
-      const rowString = row.join(' ');
-      if (filter.type === 'contains') {
-        return rowString.includes(filter.value);
-      }
-      if (filter.type === 'does not contain') {
-        return !rowString.includes(filter.value);
-      }
-      if (filter.type === 'match') {
-        // return true if some cell in row is equal to filter.value
-        return row.some((cell) => cell === filter.value);
-      }
-      if (filter.type === 'is not equal to') {
-        return rowString !== filter.value;
-      }
-      return row;
-    });
-  const newWs = XLSX.utils.aoa_to_sheet(filteredSheet, {
-    skipHeader: true,
-  });
+  const newWs = XLSX.utils.aoa_to_sheet(filteredSheet(splitedSheet, filter));
   return newWs || ws;
 }
