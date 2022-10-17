@@ -24,11 +24,11 @@ import FileDisplay from './FileDisplay';
 //   z-index: -1;
 // `;
 
-function Filter() {
-  const filterType = useAppSelector((state) => state.counter.type);
-  const filterValue = useAppSelector((state) => state.counter.value);
-  const filterRange = useAppSelector((state) => state.counter.range);
-  const filterSheet = useAppSelector((state) => state.counter.sheet);
+function Filter({index}: {index: number}) {
+  const filterType = useAppSelector((state) => state.counter[index].type);
+  const filterValue = useAppSelector((state) => state.counter[index].value);
+  const filterRange = useAppSelector((state) => state.counter[index].range);
+  const filterSheet = useAppSelector((state) => state.counter[index].sheet);
 
   const dispatch = useAppDispatch();
 
@@ -42,7 +42,7 @@ function Filter() {
           id="filter-options-select"
           defaultValue={filterType}
           onChange={(e) => {
-            dispatch(updateType(e.target.value));
+            dispatch(updateType({action: e.target.value, index}));
           }}
         >
           <option value="contains">Contains</option>
@@ -54,7 +54,7 @@ function Filter() {
           type="text"
           value={filterValue}
           onChange={(e) => {
-            dispatch(updateValue(e.target.value));
+            dispatch(updateValue({action: e.target.value, index}));
           }}
         />
         <div id="filter-range">Range</div>
@@ -63,7 +63,7 @@ function Filter() {
           name="filter-range"
           id="filter-range-select"
           value={filterRange}
-          onChange={(e) => dispatch(updateRange(e.target.value))}
+          onChange={(e) => dispatch(updateRange({action: e.target.value, index}))}
         />
         <div id="filter-sheet">Sheet</div>
         <input
@@ -71,10 +71,10 @@ function Filter() {
           name="filter-sheet"
           id="filter-sheet-select"
           value={filterSheet}
-          onChange={(e) => dispatch(updateSheet(e.target.value))}
+          onChange={(e) => dispatch(updateSheet({action: e.target.value, index}))}
         />
       </label>
-      <FileDisplay />
+      <FileDisplay index={index} />
     </div>
   );
 }

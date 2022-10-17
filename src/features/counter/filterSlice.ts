@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 // import type { RootState } from '../../app/store';
 
 interface FilterState {
@@ -9,28 +9,40 @@ interface FilterState {
   sheet: string;
 }
 
-const initialState = {
-  type: 'contains',
-  value: '',
-  range: '',
-  sheet: '',
-} as FilterState;
+interface actionType {
+  payload: {
+    action: string;
+    index: number;
+  }
+}
+
+const initialState = [
+  {
+    type: 'contains',
+    value: '',
+    range: '',
+    sheet: '',
+  },
+] as Array<FilterState>;
 
 export const filterSlice = createSlice({
   name: 'Filter',
   initialState,
   reducers: {
-    updateValue: (state, action: PayloadAction<string>) => {
-      state.value = action.payload;
+    updateValue: (
+      state: Array<FilterState>,
+      action: actionType,
+    ) => {
+      state[action.payload.index].value = action.payload.action;
     },
-    updateRange: (state, action: PayloadAction<string>) => {
-      state.range = action.payload;
+    updateRange: (state: Array<FilterState>, action: actionType) => {
+      state[action.payload.index].range = action.payload.action;
     },
-    updateType: (state, action) => {
-      state.type = action.payload;
+    updateSheet: (state: Array<FilterState>, action: actionType) => {
+      state[action.payload.index].sheet = action.payload.action;
     },
-    updateSheet: (state, action) => {
-      state.sheet = action.payload;
+    updateType: (state: Array<FilterState>, action: actionType) => {
+      state[action.payload.index].type = action.payload.action;
     },
   },
 });
