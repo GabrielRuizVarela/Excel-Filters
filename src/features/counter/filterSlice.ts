@@ -13,7 +13,7 @@ interface actionType {
   payload: {
     action: string;
     index: number;
-  }
+  };
 }
 
 const initialState = [
@@ -29,10 +29,7 @@ export const filterSlice = createSlice({
   name: 'Filter',
   initialState,
   reducers: {
-    updateValue: (
-      state: Array<FilterState>,
-      action: actionType,
-    ) => {
+    updateValue: (state: Array<FilterState>, action: actionType) => {
       state[action.payload.index].value = action.payload.action;
     },
     updateRange: (state: Array<FilterState>, action: actionType) => {
@@ -44,11 +41,19 @@ export const filterSlice = createSlice({
     updateType: (state: Array<FilterState>, action: actionType) => {
       state[action.payload.index].type = action.payload.action;
     },
+    addFilter: (state) => {
+      state.push({
+        type: 'contains',
+        value: '',
+        range: '',
+        sheet: '',
+      });
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateValue, updateRange, updateType, updateSheet } =
+export const { updateValue, updateRange, updateType, updateSheet, addFilter } =
   filterSlice.actions;
 
 export default filterSlice.reducer;

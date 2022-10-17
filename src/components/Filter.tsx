@@ -8,8 +8,6 @@ import {
   updateType,
   updateSheet,
 } from '../features/counter/filterSlice';
-import LoadFile from './LoadFile';
-import FileDisplay from './FileDisplay';
 
 // const DropFileDiv = styled.div`
 //   width: 100vw;
@@ -24,17 +22,16 @@ import FileDisplay from './FileDisplay';
 //   z-index: -1;
 // `;
 
-function Filter({index}: {index: number}) {
-  const filterType = useAppSelector((state) => state.counter[index].type);
-  const filterValue = useAppSelector((state) => state.counter[index].value);
-  const filterRange = useAppSelector((state) => state.counter[index].range);
-  const filterSheet = useAppSelector((state) => state.counter[index].sheet);
+function Filter({ index }: { index: number }) {
+  const filterType = useAppSelector((state) => state.filter[index].type);
+  const filterValue = useAppSelector((state) => state.filter[index].value);
+  const filterRange = useAppSelector((state) => state.filter[index].range);
+  const filterSheet = useAppSelector((state) => state.filter[index].sheet);
 
   const dispatch = useAppDispatch();
 
   return (
     <div className="Filter">
-      <LoadFile />
       <h1>Filter</h1>
       <label htmlFor="filter-options-select">
         <select
@@ -42,7 +39,7 @@ function Filter({index}: {index: number}) {
           id="filter-options-select"
           defaultValue={filterType}
           onChange={(e) => {
-            dispatch(updateType({action: e.target.value, index}));
+            dispatch(updateType({ action: e.target.value, index }));
           }}
         >
           <option value="contains">Contains</option>
@@ -54,7 +51,7 @@ function Filter({index}: {index: number}) {
           type="text"
           value={filterValue}
           onChange={(e) => {
-            dispatch(updateValue({action: e.target.value, index}));
+            dispatch(updateValue({ action: e.target.value, index }));
           }}
         />
         <div id="filter-range">Range</div>
@@ -63,7 +60,9 @@ function Filter({index}: {index: number}) {
           name="filter-range"
           id="filter-range-select"
           value={filterRange}
-          onChange={(e) => dispatch(updateRange({action: e.target.value, index}))}
+          onChange={(e) =>
+            dispatch(updateRange({ action: e.target.value, index }))
+          }
         />
         <div id="filter-sheet">Sheet</div>
         <input
@@ -71,10 +70,11 @@ function Filter({index}: {index: number}) {
           name="filter-sheet"
           id="filter-sheet-select"
           value={filterSheet}
-          onChange={(e) => dispatch(updateSheet({action: e.target.value, index}))}
+          onChange={(e) =>
+            dispatch(updateSheet({ action: e.target.value, index }))
+          }
         />
       </label>
-      <FileDisplay index={index} />
     </div>
   );
 }

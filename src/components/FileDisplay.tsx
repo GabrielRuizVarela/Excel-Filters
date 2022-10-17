@@ -3,12 +3,12 @@ import * as XLSX from 'xlsx';
 import { useAppSelector } from '../app/hooks';
 import filter from '../utils/filterFunctions';
 
-export default function FileDisplay({index}: {index: number}) {
+export default function FileDisplay({ index }: { index: number }) {
   const wb = useAppSelector((state) => state.file.workbook);
-  const filterType = useAppSelector((state) => state.counter[index].type);
-  const filterValue = useAppSelector((state) => state.counter[index].value);
-  const filterRange = useAppSelector((state) => state.counter[index].range);
-  const filterSheet = useAppSelector((state) => state.counter[index].sheet);
+  const filterType = useAppSelector((state) => state.filter[index].type);
+  const filterValue = useAppSelector((state) => state.filter[index].value);
+  const filterRange = useAppSelector((state) => state.filter[index].range);
+  const filterSheet = useAppSelector((state) => state.filter[index].sheet);
   const filterSpec = {
     type: filterType,
     value: filterValue,

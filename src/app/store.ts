@@ -4,7 +4,7 @@ import fileSlice from '../features/counter/fileSlice';
 
 const store = configureStore({
   reducer: {
-    counter: filterReducer,
+    filter: filterReducer,
     file: fileSlice,
   },
 });
