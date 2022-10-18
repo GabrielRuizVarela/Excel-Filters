@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 // import styled from 'styled-components';
 // import excelJS from 'exceljs';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
@@ -9,7 +9,10 @@ import {
   updateSheet,
   removeFilter,
   addFilter,
+  updateFilteredSheet,
+  updateDisplay,
 } from '../features/counter/filterSlice';
+import filterData from '../utils/filterFunctions';
 
 // const DropFileDiv = styled.div`
 //   width: 100vw;
@@ -29,12 +32,40 @@ function Filter({ index }: { index: number }) {
   const filterValue = useAppSelector((state) => state.filter[index].value);
   const filterRange = useAppSelector((state) => state.filter[index].range);
   const filterSheet = useAppSelector((state) => state.filter[index].sheet);
-
+  const filterSpec = useAppSelector((state) => state.filter[index]);
+  const wb = useAppSelector((state) => state.file.workbook);
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(
+      updateFilteredSheet({
+        sheet: filterData(
+          filterSpec.prev !== null
+            ? filterSpec.prev.filteredSheet
+            : wb?.Sheets[wb.SheetNames[parseInt(filterSheet, 10) || 0]] || {},
+          {
+            type: filterType,
+            value: filterValue,
+            range: filterRange,
+            sheet: filterSheet,
+          },
+        ),
+        index,
+      }),
+    );
+  }, [
+    filterType,
+    filterValue,
+    filterRange,
+    filterSheet,
+    wb,
+    index,
+    dispatch,
+    filterSpec.prev,
+  ]);
 
   return (
     <div className="Filter">
-      <h1>{useAppSelector(state=>state.filter[index].id)}</h1>
+      <h1>{useAppSelector((state) => state.filter[index].id)}</h1>
       <label htmlFor="filter-options-select">
         <select
           name="filter-options"
@@ -84,6 +115,16 @@ function Filter({ index }: { index: number }) {
       <button type="button" onClick={() => dispatch(removeFilter(index))}>
         Remove Filter
       </button>
+      {/* display checkbox */}
+      <input
+        type="checkbox"
+        name="display"
+        id="display"
+        checked={useAppSelector((state) => state.filter[index].display)}
+        onChange={(e) =>
+          dispatch(updateDisplay({ display: e.target.checked, index }))
+        }
+      />
     </div>
   );
 }

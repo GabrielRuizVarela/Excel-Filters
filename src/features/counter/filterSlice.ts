@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-// import type { RootState } from '../../app/store';
+import { WorkSheet } from 'xlsx';
 
 interface FilterState {
   type: string;
@@ -9,6 +9,8 @@ interface FilterState {
   sheet: string;
   prev: FilterState | null;
   id: number;
+  filteredSheet: WorkSheet | null;
+  display: boolean;
 }
 
 interface actionType {
@@ -26,6 +28,8 @@ const initialState = [
     sheet: '',
     prev: null,
     id: 0,
+    filteredSheet: null,
+    display: true,
   },
 ] as Array<FilterState>;
 
@@ -33,6 +37,9 @@ export const filterSlice = createSlice({
   name: 'Filter',
   initialState,
   reducers: {
+    updateFilteredSheet: (state: Array<FilterState>, action) => {
+      state[action.payload.index].filteredSheet = action.payload.sheet;
+    },
     updateValue: (state: Array<FilterState>, action: actionType) => {
       state[action.payload.index].value = action.payload.action;
     },
@@ -56,9 +63,27 @@ export const filterSlice = createSlice({
         sheet: '',
         prev: state[action.payload],
         id: state.length,
+        filteredSheet: state[action.payload].filteredSheet,
+        display: true,
       });
-      if(state[action.payload+2]){
-        state[action.payload+2].prev = state[action.payload+1];
+      // display needs to be false in the others
+      state.forEach((filter, index) => {
+        if (index !== action.payload + 1) {
+          filter.display = false;
+        }
+      });
+      if (state[action.payload + 2]) {
+        state[action.payload + 2].prev = state[action.payload + 1];
+      }
+    },
+    updateDisplay: (state: Array<FilterState>, action) => {
+      state[action.payload.index].display = action.payload.display;
+      if (action.payload.display) {
+        state.forEach((filter, index) => {
+          if (index !== action.payload.index) {
+            filter.display = false;
+          }
+        });
       }
     },
   },
@@ -72,6 +97,8 @@ export const {
   updateSheet,
   removeFilter,
   addFilter,
+  updateFilteredSheet,
+  updateDisplay,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

@@ -67,11 +67,12 @@ function filteredSheet(ws: XLSX.WorkSheet, filterProp: FilterInterface) {
 }
 
 export default function filterData(
-  wb: XLSX.WorkBook | null,
+  ws: XLSX.WorkSheet | null,
   filter: FilterInterface,
 ) {
-  if (!wb) return null;
-  const ws = wb.Sheets[wb.SheetNames[0]];
+  if (!ws) return null;
+  // const ws = wb.Sheets[wb.SheetNames[parseInt(filter.sheet, 10)]];
+  // const ws = wb
   const rows: XLSX.CellObject[][] = XLSX.utils.sheet_to_json(ws, {
     header: 1,
   });
