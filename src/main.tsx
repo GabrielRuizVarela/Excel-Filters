@@ -8,11 +8,13 @@ import App from './App';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <HashRouter>
-    <Provider store={store}>
-      <Routes>
-        <Route path="/" element={<App />} />
-      </Routes>
-    </Provider>
-  </HashRouter>,
+  <React.StrictMode>
+    <HashRouter>
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<App />} />
+        </Routes>
+      </Provider>
+    </HashRouter>
+  </React.StrictMode>,
 );

@@ -13,11 +13,6 @@ export default function LoadFile() {
       const data = await file.arrayBuffer();
       const workbook = XLSX.read(data);
       dispatch(updateFile(workbook));
-      console.log(
-        
-        XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]]),
-      );
-      console.log(workbook.Sheets[workbook.SheetNames[0]]);
     }
   }
   return (

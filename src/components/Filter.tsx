@@ -7,6 +7,8 @@ import {
   updateValue,
   updateType,
   updateSheet,
+  removeFilter,
+  addFilter,
 } from '../features/counter/filterSlice';
 
 // const DropFileDiv = styled.div`
@@ -32,7 +34,7 @@ function Filter({ index }: { index: number }) {
 
   return (
     <div className="Filter">
-      <h1>Filter</h1>
+      <h1>{useAppSelector(state=>state.filter[index].id)}</h1>
       <label htmlFor="filter-options-select">
         <select
           name="filter-options"
@@ -75,6 +77,13 @@ function Filter({ index }: { index: number }) {
           }
         />
       </label>
+      {/* <button type="button" onClick={() => dispatch(push(index))}> */}
+      <button type="button" onClick={() => dispatch(addFilter(index))}>
+        Add Filter
+      </button>
+      <button type="button" onClick={() => dispatch(removeFilter(index))}>
+        Remove Filter
+      </button>
     </div>
   );
 }

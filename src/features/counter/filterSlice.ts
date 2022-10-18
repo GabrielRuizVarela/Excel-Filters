@@ -7,6 +7,8 @@ interface FilterState {
   value: string;
   range: string;
   sheet: string;
+  prev: FilterState | null;
+  id: number;
 }
 
 interface actionType {
@@ -22,6 +24,8 @@ const initialState = [
     value: '',
     range: '',
     sheet: '',
+    prev: null,
+    id: 0,
   },
 ] as Array<FilterState>;
 
@@ -41,19 +45,33 @@ export const filterSlice = createSlice({
     updateType: (state: Array<FilterState>, action: actionType) => {
       state[action.payload.index].type = action.payload.action;
     },
-    addFilter: (state) => {
-      state.push({
+    removeFilter: (state, action) => {
+      state.splice(action.payload, 1);
+    },
+    addFilter: (state: Array<FilterState>, action) => {
+      state.splice(action.payload + 1, 0, {
         type: 'contains',
         value: '',
         range: '',
         sheet: '',
+        prev: state[action.payload],
+        id: state.length,
       });
+      if(state[action.payload+2]){
+        state[action.payload+2].prev = state[action.payload+1];
+      }
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateValue, updateRange, updateType, updateSheet, addFilter } =
-  filterSlice.actions;
+export const {
+  updateValue,
+  updateRange,
+  updateType,
+  updateSheet,
+  removeFilter,
+  addFilter,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;
