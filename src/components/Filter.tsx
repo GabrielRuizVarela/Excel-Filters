@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-// import styled from 'styled-components';
-// import excelJS from 'exceljs';
+import styled from 'styled-components';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import {
   updateRange,
@@ -13,20 +12,13 @@ import {
 } from '../features/counter/filterSlice';
 import filterData from '../utils/filterFunctions';
 
-// const DropFileDiv = styled.div`
-//   width: 100vw;
-//   height: 100vh;
-//   position: fixed;
-//   top: 0px;
-//   left: 0px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   opacity: 0;
-//   z-index: -1;
-// `;
+const FilterDiv = styled.div<{branch: number}>`
+  display: grid;
+  grid-auto-flow: row;
+  grid-column: ${(props) => props.branch+1};
+`;
 
-function Filter({ index, branch }: { index: number, branch: number }) {
+function Filter({ index, branch }: { index: number; branch: number }) {
   const filterType = useAppSelector((state) => state.filter[index].type);
   const filterValue = useAppSelector((state) => state.filter[index].value);
   const filterRange = useAppSelector((state) => state.filter[index].range);
@@ -65,7 +57,7 @@ function Filter({ index, branch }: { index: number, branch: number }) {
   ]);
 
   return (
-    <div className="Filter">
+    <FilterDiv className="Filter" branch={branch}>
       <h1>{useAppSelector((state) => state.filter[index].id)}</h1>
       <label htmlFor="filter-options-select">
         <select
@@ -99,17 +91,21 @@ function Filter({ index, branch }: { index: number, branch: number }) {
           }
         />
       </label>
-      {/* <button type="button" onClick={() => dispatch(push(index))}> */}
-      <button type="button" onClick={() => dispatch(addFilter({index,branch: 0}))}>
+      <button
+        type="button"
+        onClick={() => dispatch(addFilter({ index, branch }))}
+      >
         Add Filter
       </button>
       <button type="button" onClick={() => dispatch(removeFilter(index))}>
         Remove Filter
       </button>
-      <button type="button" onClick={() => dispatch(addFilter({ index, branch: 1 }))}>
+      <button
+        type="button"
+        onClick={() => dispatch(addFilter({ index, branch: branch+1 }))}
+      >
         Add Filter in new branch
       </button>
-      {/* display checkbox */}
       <input
         type="checkbox"
         name="display"
@@ -119,7 +115,7 @@ function Filter({ index, branch }: { index: number, branch: number }) {
           dispatch(updateDisplay({ display: e.target.checked, index }))
         }
       />
-    </div>
+    </FilterDiv>
   );
 }
 

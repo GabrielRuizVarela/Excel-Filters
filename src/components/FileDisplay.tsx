@@ -1,5 +1,5 @@
 import React from 'react';
-import * as XLSX from 'xlsx';
+import { utils, writeFile } from 'xlsx';
 import { useAppSelector } from '../app/hooks';
 import filter from '../utils/filterFunctions';
 
@@ -17,17 +17,15 @@ export default function FileDisplay({ index }: { index: number }) {
   };
   let dataHtml = '<div></div>';
   const ws = useAppSelector(
-    (state) =>
-      // find the sheet with display set to true
-      state.filter.find((f) => f.display)?.filteredSheet,
+    (state) => state.filter.find((f) => f.display)?.filteredSheet,
   );
 
   const filteredData = filter(ws || null, filterSpec);
-  const newWb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(newWb, filteredData || {}, 'filtered');
+  const newWb = utils.book_new();
+  utils.book_append_sheet(newWb, filteredData || {}, 'filtered');
   try {
     if (filteredData?.['!ref']) {
-      dataHtml = XLSX.utils.sheet_to_html(filteredData);
+      dataHtml = utils.sheet_to_html(filteredData);
     }
   } catch (e) {
     console.log(e);
@@ -44,15 +42,17 @@ export default function FileDisplay({ index }: { index: number }) {
           />
           <button
             type="button"
-            onClick={() => XLSX.writeFile(newWb, `${fileName}.xlsx`)}
+            onClick={() => writeFile(newWb, `${fileName}.xlsx`)}
           >
             Download
           </button>
-          <input type="text" value={fileName} onChange={(e) => setFileName(e.target.value)} />
-
+          <input
+            type="text"
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value)}
+          />
         </>
       ) : (
-        // XLSX.utils.sheet_to_html(wb.Sheets[wb.SheetNames[0]])
         <div>Not Loaded</div>
       )}
     </div>

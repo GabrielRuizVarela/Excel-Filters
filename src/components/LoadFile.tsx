@@ -1,6 +1,6 @@
 import React from 'react';
 // import excelJS from 'exceljs';
-import * as XLSX from 'xlsx';
+import { read } from 'xlsx';
 import { updateFile, updateSheet } from '../features/counter/fileSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
@@ -12,7 +12,7 @@ export default function LoadFile() {
     if (e.target.files) {
       const file = e.target.files[0];
       const data = await file.arrayBuffer();
-      const workbook = XLSX.read(data);
+      const workbook = read(data);
       dispatch(updateFile(workbook));
     }
   }

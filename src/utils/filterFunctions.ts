@@ -1,6 +1,6 @@
-import * as XLSX from 'xlsx';
+import { CellObject, Range, utils, WorkSheet } from 'xlsx';
 
-function fillEmptySlotsWithNull(arr: XLSX.CellObject[]) {
+function fillEmptySlotsWithNull(arr: CellObject[]) {
   return Array.from(arr, (_, i) => {
     if (!(i in arr)) return null;
     return arr[i];
@@ -13,10 +13,7 @@ interface FilterInterface {
   range: string;
 }
 
-function splitSheetAtRange(
-  rows: XLSX.CellObject[][],
-  range: XLSX.Range,
-): XLSX.WorkSheet {
+function splitSheetAtRange(rows: CellObject[][], range: Range): WorkSheet {
   const startColNum = range.s.c;
   const endColNum = range.e.c;
   const startRowNum = range.s.r;
@@ -27,19 +24,17 @@ function splitSheetAtRange(
     .map((row) => fillEmptySlotsWithNull(row));
   // split columns begining at startColNum and ending at endColNum
   const columnsSplit = rowsSplit.map((row) => {
-    const rowSplit = row as XLSX.CellObject[];
+    const rowSplit = row as CellObject[];
     return rowSplit.slice(startColNum, endColNum + 1);
   });
-  const result = XLSX.utils.aoa_to_sheet(columnsSplit);
+  const result = utils.aoa_to_sheet(columnsSplit);
   return result;
 }
 
-function filteredSheet(ws: XLSX.WorkSheet, filterProp: FilterInterface) {
-  // type rowType =  string[];
+function filteredSheet(ws: WorkSheet, filterProp: FilterInterface) {
   type FilterSheet = string[][];
 
-  // find if splitedSheet has a row that contains the value of filter.value
-  const filtered: FilterSheet = XLSX.utils.sheet_to_json(ws, {
+  const filtered: FilterSheet = utils.sheet_to_json(ws, {
     header: 1,
   });
   return filtered.filter((row) => {
@@ -66,19 +61,18 @@ function filteredSheet(ws: XLSX.WorkSheet, filterProp: FilterInterface) {
 }
 
 export default function filterData(
-  ws: XLSX.WorkSheet | null,
+  ws: WorkSheet | null,
   filter: FilterInterface,
 ) {
   if (!ws) return null;
-  // const ws = wb.Sheets[wb.SheetNames[parseInt(filter.sheet, 10)]];
-  // const ws = wb
-  const rows: XLSX.CellObject[][] = XLSX.utils.sheet_to_json(ws, {
+
+  const rows: CellObject[][] = utils.sheet_to_json(ws, {
     header: 1,
   });
 
-  let range = XLSX.utils.decode_range(filter.range);
-  const maxRange = XLSX.utils.decode_range(ws['!ref'] || 'A1');
-  // if some value of key is -1, then it is not a valid range
+  let range = utils.decode_range(filter.range);
+  const maxRange = utils.decode_range(ws['!ref'] || 'A1');
+
   if (
     !range ||
     range.e.c === -1 ||
@@ -94,6 +88,6 @@ export default function filterData(
   }
   const splitedSheet = splitSheetAtRange(rows, range) || ws;
 
-  const newWs = XLSX.utils.aoa_to_sheet(filteredSheet(splitedSheet, filter));
+  const newWs = utils.aoa_to_sheet(filteredSheet(splitedSheet, filter));
   return newWs || ws;
 }
