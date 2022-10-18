@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import { WorkSheet } from 'xlsx';
 
 interface FilterState {
+  id: number;
+  filteredSheet: WorkSheet | null;
+  branch: number;
   type: string;
   value: string;
   range: string;
-  // prev: FilterState | null;
   prev: number | null;
-  id: number;
-  filteredSheet: WorkSheet | null;
   display: boolean;
 }
 
@@ -29,6 +29,7 @@ const initialState = [
     id: 0,
     filteredSheet: null,
     display: true,
+    branch: 0,
   },
 ] as Array<FilterState>;
 
@@ -49,17 +50,21 @@ export const filterSlice = createSlice({
       state[action.payload.index].type = action.payload.action;
     },
     removeFilter: (state, action) => {
-      state.splice(action.payload, 1);
+      if( state[action.payload].id!==0 ){
+        state.splice(action.payload, 1);
+      }
+
     },
     addFilter: (state: Array<FilterState>, action) => {
-      state.splice(action.payload + 1, 0, {
+      state.splice(action.payload.index + 1, 0, {
         type: 'contains',
         value: '',
         range: '',
-        prev: state[action.payload].id,
+        prev: state[action.payload.index].id,
         id: state.length,
-        filteredSheet: state[action.payload].filteredSheet,
+        filteredSheet: state[action.payload.index].filteredSheet,
         display: true,
+        branch: action.payload.branch,
       });
       // display needs to be false in the others
       state.forEach((filter, index) => {

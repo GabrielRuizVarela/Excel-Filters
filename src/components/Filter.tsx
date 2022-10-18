@@ -26,7 +26,7 @@ import filterData from '../utils/filterFunctions';
 //   z-index: -1;
 // `;
 
-function Filter({ index }: { index: number }) {
+function Filter({ index, branch }: { index: number, branch: number }) {
   const filterType = useAppSelector((state) => state.filter[index].type);
   const filterValue = useAppSelector((state) => state.filter[index].value);
   const filterRange = useAppSelector((state) => state.filter[index].range);
@@ -100,11 +100,14 @@ function Filter({ index }: { index: number }) {
         />
       </label>
       {/* <button type="button" onClick={() => dispatch(push(index))}> */}
-      <button type="button" onClick={() => dispatch(addFilter(index))}>
+      <button type="button" onClick={() => dispatch(addFilter({index,branch: 0}))}>
         Add Filter
       </button>
       <button type="button" onClick={() => dispatch(removeFilter(index))}>
         Remove Filter
+      </button>
+      <button type="button" onClick={() => dispatch(addFilter({ index, branch: 1 }))}>
+        Add Filter in new branch
       </button>
       {/* display checkbox */}
       <input
