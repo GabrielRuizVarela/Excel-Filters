@@ -1,10 +1,11 @@
 import React from 'react';
 // import excelJS from 'exceljs';
 import * as XLSX from 'xlsx';
-import { updateFile } from '../features/counter/fileSlice';
-import { useAppDispatch } from '../app/hooks';
+import { updateFile, updateSheet } from '../features/counter/fileSlice';
+import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 export default function LoadFile() {
+  const filterSheet = useAppSelector((state) => state.file.sheet);
   const dispatch = useAppDispatch();
 
   async function handleFileAsync(e: React.ChangeEvent<HTMLInputElement>) {
@@ -16,10 +17,22 @@ export default function LoadFile() {
     }
   }
   return (
-    <input
-      type="file"
-      onChange={(e) => handleFileAsync(e)}
-      id="input_dom_element"
-    />
+    <>
+      <input
+        type="file"
+        onChange={(e) => handleFileAsync(e)}
+        id="input_dom_element"
+      />
+      <div id="filter-sheet">Sheet</div>
+      <input
+        type="text"
+        name="filter-sheet"
+        id="filter-sheet-select"
+        value={filterSheet}
+        onChange={(e) =>
+          dispatch(updateSheet(parseInt(e.target.value, 10) || 0))
+        }
+      />
+    </>
   );
 }

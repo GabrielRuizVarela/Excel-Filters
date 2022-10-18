@@ -6,7 +6,6 @@ interface FilterState {
   type: string;
   value: string;
   range: string;
-  sheet: string;
   // prev: FilterState | null;
   prev: number | null;
   id: number;
@@ -26,7 +25,6 @@ const initialState = [
     type: 'contains',
     value: '',
     range: '',
-    sheet: '',
     prev: null,
     id: 0,
     filteredSheet: null,
@@ -47,9 +45,6 @@ export const filterSlice = createSlice({
     updateRange: (state: Array<FilterState>, action: actionType) => {
       state[action.payload.index].range = action.payload.action;
     },
-    updateSheet: (state: Array<FilterState>, action: actionType) => {
-      state[action.payload.index].sheet = action.payload.action;
-    },
     updateType: (state: Array<FilterState>, action: actionType) => {
       state[action.payload.index].type = action.payload.action;
     },
@@ -61,7 +56,6 @@ export const filterSlice = createSlice({
         type: 'contains',
         value: '',
         range: '',
-        sheet: '',
         prev: state[action.payload].id,
         id: state.length,
         filteredSheet: state[action.payload].filteredSheet,
@@ -95,7 +89,6 @@ export const {
   updateValue,
   updateRange,
   updateType,
-  updateSheet,
   removeFilter,
   addFilter,
   updateFilteredSheet,

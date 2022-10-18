@@ -6,7 +6,6 @@ import {
   updateRange,
   updateValue,
   updateType,
-  updateSheet,
   removeFilter,
   addFilter,
   updateFilteredSheet,
@@ -31,7 +30,7 @@ function Filter({ index }: { index: number }) {
   const filterType = useAppSelector((state) => state.filter[index].type);
   const filterValue = useAppSelector((state) => state.filter[index].value);
   const filterRange = useAppSelector((state) => state.filter[index].range);
-  const filterSheet = useAppSelector((state) => state.filter[index].sheet);
+  const filterSheet = useAppSelector((state) => state.file.sheet);
   const filterSpec = useAppSelector((state) => state.filter[index]);
   const wb = useAppSelector((state) => state.file.workbook);
   const filterState = useAppSelector((state) => state.filter);
@@ -42,16 +41,15 @@ function Filter({ index }: { index: number }) {
         sheet: filterData(
           filterSpec.prev !== null
             ? (
-              filterState.find((f) => f.id === filterSpec.prev) || {
-                filteredSheet: null,
-              }
-            ).filteredSheet
-            : wb?.Sheets[wb.SheetNames[parseInt(filterSheet, 10) || 0]] || {},
+                filterState.find((f) => f.id === filterSpec.prev) || {
+                  filteredSheet: null,
+                }
+              ).filteredSheet
+            : wb?.Sheets[wb.SheetNames[filterSheet]] || {},
           {
             type: filterType,
             value: filterValue,
             range: filterRange,
-            sheet: filterSheet,
           },
         ),
         index,
@@ -98,16 +96,6 @@ function Filter({ index }: { index: number }) {
           value={filterRange}
           onChange={(e) =>
             dispatch(updateRange({ action: e.target.value, index }))
-          }
-        />
-        <div id="filter-sheet">Sheet</div>
-        <input
-          type="text"
-          name="filter-sheet"
-          id="filter-sheet-select"
-          value={filterSheet}
-          onChange={(e) =>
-            dispatch(updateSheet({ action: e.target.value, index }))
           }
         />
       </label>

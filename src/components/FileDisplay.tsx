@@ -8,7 +8,7 @@ export default function FileDisplay({ index }: { index: number }) {
   const filterType = useAppSelector((state) => state.filter[index].type);
   const filterValue = useAppSelector((state) => state.filter[index].value);
   const filterRange = useAppSelector((state) => state.filter[index].range);
-  const filterSheet = useAppSelector((state) => state.filter[index].sheet);
+  const filterSheet = useAppSelector((state) => state.file.sheet);
   const filterSpec = {
     type: filterType,
     value: filterValue,

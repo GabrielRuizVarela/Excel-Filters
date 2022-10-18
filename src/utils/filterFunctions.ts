@@ -11,7 +11,6 @@ interface FilterInterface {
   type: string;
   value: string;
   range: string;
-  sheet: string;
 }
 
 function splitSheetAtRange(
