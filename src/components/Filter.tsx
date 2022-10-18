@@ -34,13 +34,18 @@ function Filter({ index }: { index: number }) {
   const filterSheet = useAppSelector((state) => state.filter[index].sheet);
   const filterSpec = useAppSelector((state) => state.filter[index]);
   const wb = useAppSelector((state) => state.file.workbook);
+  const filterState = useAppSelector((state) => state.filter);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
       updateFilteredSheet({
         sheet: filterData(
           filterSpec.prev !== null
-            ? filterSpec.prev.filteredSheet
+            ? (
+              filterState.find((f) => f.id === filterSpec.prev) || {
+                filteredSheet: null,
+              }
+            ).filteredSheet
             : wb?.Sheets[wb.SheetNames[parseInt(filterSheet, 10) || 0]] || {},
           {
             type: filterType,
@@ -58,9 +63,7 @@ function Filter({ index }: { index: number }) {
     filterRange,
     filterSheet,
     wb,
-    index,
-    dispatch,
-    filterSpec.prev,
+    filterState.find((f) => f.id === filterSpec.prev)?.filteredSheet,
   ]);
 
   return (

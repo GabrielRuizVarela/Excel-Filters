@@ -7,7 +7,8 @@ interface FilterState {
   value: string;
   range: string;
   sheet: string;
-  prev: FilterState | null;
+  // prev: FilterState | null;
+  prev: number | null;
   id: number;
   filteredSheet: WorkSheet | null;
   display: boolean;
@@ -61,7 +62,7 @@ export const filterSlice = createSlice({
         value: '',
         range: '',
         sheet: '',
-        prev: state[action.payload],
+        prev: state[action.payload].id,
         id: state.length,
         filteredSheet: state[action.payload].filteredSheet,
         display: true,
@@ -73,7 +74,7 @@ export const filterSlice = createSlice({
         }
       });
       if (state[action.payload + 2]) {
-        state[action.payload + 2].prev = state[action.payload + 1];
+        state[action.payload + 2].prev = state[action.payload + 1].id;
       }
     },
     updateDisplay: (state: Array<FilterState>, action) => {
