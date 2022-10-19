@@ -1,7 +1,7 @@
 import React from 'react';
 // import excelJS from 'exceljs';
 import { read } from 'xlsx';
-import { updateFile, updateSheet } from '../features/counter/fileSlice';
+import { updateFile, updateSheet } from '../features/fileSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 export default function LoadFile() {

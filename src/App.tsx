@@ -5,12 +5,12 @@ import Filter from './components/Filter';
 import { useAppSelector } from './app/hooks';
 import FileDisplay from './components/FileDisplay';
 import LoadFile from './components/LoadFile';
+import Merge from './components/Merge';
 
 const FilterContainer = styled.div`
   display: grid;
   grid-auto-flow: row;
   grid-gap: 10px;
-  
 `;
 
 function App() {
@@ -20,10 +20,14 @@ function App() {
     <div className="App">
       <LoadFile />
       <FilterContainer>
-        {filtersState.map((filter) => (
+        {filtersState.map((filter,index) =>
           // add style to Filter, grid-column: filter.branch
-          <Filter index={filter.id} key={filter.id} branch={filter.branch} />
-        ))}
+          filter.merge ? (
+            <Merge index={index} key={index} branch={filter.branch} />
+          ) : (
+            <Filter index={index} key={index} branch={filter.branch} />
+          ),
+        )}
       </FilterContainer>
       <FileDisplay index={0} />
     </div>

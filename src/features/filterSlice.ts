@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { WorkSheet } from 'xlsx';
 
-interface FilterState {
+export interface FilterState {
   id: number;
   filteredSheet: WorkSheet | null;
   branch: number;
@@ -11,6 +11,9 @@ interface FilterState {
   range: string;
   prev: number | null;
   display: boolean;
+  mergeOptions?: 'stacked' | 'sideways';
+  mergeInto?: number;
+  merge?: boolean;
 }
 
 interface actionType {
@@ -50,31 +53,63 @@ export const filterSlice = createSlice({
       state[action.payload.index].type = action.payload.action;
     },
     removeFilter: (state, action) => {
-      if( state[action.payload].id!==0 ){
+      if (state[action.payload].id !== 0) {
         state.splice(action.payload, 1);
       }
-
+      // if prev is null and index is not 0, remove from state
+      state.forEach((filter, index) => {
+        // if filter.prev not match any id in state, delete filter
+        if (filter.prev !== null) {
+          const prev = state.find((f) => f.id === filter.prev);
+          if (prev === undefined) {
+            state.splice(index, 1);
+          }
+        }
+      });
     },
     addFilter: (state: Array<FilterState>, action) => {
-      state.splice(action.payload.index + 1, 0, {
-        type: 'contains',
-        value: '',
-        range: '',
-        prev: state[action.payload.index].id,
-        id: state.length,
-        filteredSheet: state[action.payload.index].filteredSheet,
-        display: true,
-        branch: action.payload.branch,
-      });
+      let next = action.payload.index + 1;
+      if (
+        state[next]?.merge ||
+        state[next]?.branch !== state[action.payload.index].branch
+      ) {
+        next += 1;
+      }
+      if (!action.payload.merge) {
+        state.splice(next, 0, {
+          type: 'contains',
+          value: '',
+          range: '',
+          prev: state[action.payload.index].id,
+          id: state.length,
+          filteredSheet: state[action.payload.index].filteredSheet,
+          display: true,
+          branch: action.payload.branch,
+        });
+      } else {
+        state.splice(next, 0, {
+          type: 'contains',
+          value: '',
+          range: '',
+          prev: state[action.payload.index].id,
+          id: state.length,
+          filteredSheet: state[action.payload.index].filteredSheet,
+          display: true,
+          branch: action.payload.branch,
+          merge: true,
+          mergeInto: 0,
+          mergeOptions: 'stacked',
+        });
+      }
       // display needs to be false in the others
       state.forEach((filter, index) => {
-        if (index !== action.payload + 1) {
+        if (index !== next) {
           filter.display = false;
         }
       });
-      if (state[action.payload + 2]) {
-        state[action.payload + 2].prev = state[action.payload + 1].id;
-      }
+      // if (state[next + 1]) {
+      //   state[next + 1].prev = state[next].id;
+      // }
     },
     updateDisplay: (state: Array<FilterState>, action) => {
       state[action.payload.index].display = action.payload.display;
@@ -86,18 +121,27 @@ export const filterSlice = createSlice({
         });
       }
     },
+    updateOptions: (state: Array<FilterState>, action) => {
+      state[action.payload.index].mergeOptions = action.payload.options;
+    },
+
+    updateMergeInto: (state: Array<FilterState>, action) => {
+      state[action.payload.index].mergeInto = action.payload.mergeInto;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
 export const {
+  updateFilteredSheet,
   updateValue,
   updateRange,
   updateType,
   removeFilter,
   addFilter,
-  updateFilteredSheet,
   updateDisplay,
+  updateOptions,
+  updateMergeInto,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

@@ -9,13 +9,15 @@ import {
   addFilter,
   updateFilteredSheet,
   updateDisplay,
-} from '../features/counter/filterSlice';
+} from '../features/filterSlice';
 import filterData from '../utils/filterFunctions';
 
-const FilterDiv = styled.div<{branch: number}>`
+const FilterDiv = styled.div<{ branch: number }>`
   display: grid;
   grid-auto-flow: row;
-  grid-column: ${(props) => props.branch+1};
+  grid-column: ${(props) => props.branch + 1};
+  max-width: fit-content;
+  max-height: fit-content;
 `;
 
 function Filter({ index, branch }: { index: number; branch: number }) {
@@ -26,6 +28,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
   const filterSpec = useAppSelector((state) => state.filter[index]);
   const wb = useAppSelector((state) => state.file.workbook);
   const filterState = useAppSelector((state) => state.filter);
+  const prev = useAppSelector((state) => state.filter[index].prev);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
@@ -59,6 +62,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
   return (
     <FilterDiv className="Filter" branch={branch}>
       <h1>{useAppSelector((state) => state.filter[index].id)}</h1>
+      <p>{prev}</p>
       <label htmlFor="filter-options-select">
         <select
           name="filter-options"
@@ -102,7 +106,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
       </button>
       <button
         type="button"
-        onClick={() => dispatch(addFilter({ index, branch: branch+1 }))}
+        onClick={() => dispatch(addFilter({ index, branch: branch + 1 }))}
       >
         Add Filter in new branch
       </button>
@@ -115,6 +119,13 @@ function Filter({ index, branch }: { index: number; branch: number }) {
           dispatch(updateDisplay({ display: e.target.checked, index }))
         }
       />
+      {/* addMerge button */}
+      <button
+        type="button"
+        onClick={() => dispatch(addFilter({ index, merge: true }))}
+      >
+        Add Merge
+      </button>
     </FilterDiv>
   );
 }
