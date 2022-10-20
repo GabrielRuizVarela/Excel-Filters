@@ -63,7 +63,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
 
   return (
     <FilterDiv className="Filter" branch={branch}>
-      <h1>{useAppSelector((state) => index)}</h1>
+      <h1>{index}</h1>
       <p>
         {
           // find the previous filter index in the filterState array
