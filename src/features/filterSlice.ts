@@ -102,8 +102,9 @@ export const filterSlice = createSlice({
         });
       }
       // display needs to be false in the others
-      state.forEach((filter, index) => {
-        if (index !== next) {
+      console.log(action.payload.index);
+      state.forEach((filter, i) => {
+        if (i !== action.payload.index+1) {
           filter.display = false;
         }
       });
