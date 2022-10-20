@@ -123,6 +123,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
       >
         Add Filter in new branch
       </button>
+      <span>Display</span>
       <input
         type="checkbox"
         name="display"

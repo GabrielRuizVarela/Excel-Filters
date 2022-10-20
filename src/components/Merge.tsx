@@ -104,6 +104,7 @@ function Merge({ index, branch }: { index: number; branch: number }) {
         <option value="stacked">Stacked</option>
         <option value="sideways">Side by Side</option>
       </select>
+      <span>Display</span>
       <input
         type="checkbox"
         name="display"
