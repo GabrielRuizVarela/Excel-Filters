@@ -8,12 +8,12 @@ import SignIn from './SignIn';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
-  authDomain: 'excel-filters.firebaseapp.com',
-  projectId: 'excel-filters',
-  storageBucket: 'excel-filters.appspot.com',
-  messagingSenderId: '842563428660',
-  appId: '1:842563428660:web:89a86c24caa2c6ccb84561',
-  measurementId: 'G-V6PY6PTFL1',
+  authDomain: "excel-filters-d713f.firebaseapp.com",
+  projectId: "excel-filters-d713f",
+  storageBucket: "excel-filters-d713f.appspot.com",
+  messagingSenderId: "718303504200",
+  appId: "1:718303504200:web:d8f3ab686dd37b41b7f57d",
+  measurementId: "G-DCQ8SWEV07"
 };
 
 // Initialize Firebase
