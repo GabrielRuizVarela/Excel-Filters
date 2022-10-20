@@ -27,7 +27,6 @@ function handleMerge(filterState: FilterState[], index: number) {
   if (!prev || !mergeInto) {
     return null;
   }
-  console.log(mergeInto);
   // const end = utils.decode_range(mergeInto?.filteredSheet?.['!ref']?.split(':')?.[1] || '');
   if (filter.mergeOptions === 'stacked') {
     const newWorksheet = utils.sheet_add_json(

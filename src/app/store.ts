@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import filterReducer from '../features/filterSlice';
 import fileSlice from '../features/fileSlice';
+import firebaseSlice from '../features/firebaseSlice';
 
 const store = configureStore({
   reducer: {
     filter: filterReducer,
     file: fileSlice,
+    firebase: firebaseSlice,
   },
 });
 
