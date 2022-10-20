@@ -11,6 +11,8 @@ import {
   FilterState,
   updateFilteredSheet,
 } from '../features/filterSlice';
+import { incrementIdCounter } from '../features/fileSlice';
+
 
 const StyledDiv = styled.div<{ branch: number }>`
   display: grid;
@@ -53,6 +55,7 @@ function Merge({ index, branch }: { index: number; branch: number }) {
   const mergeInto = useAppSelector((state) => state.filter[index].mergeInto);
   // const options = useAppSelector((state) => state.filter[index].options);
   const prev = useAppSelector((state) => state.filter[index].prev);
+  const idCounter = useAppSelector((state) => state.file.id);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -112,7 +115,10 @@ function Merge({ index, branch }: { index: number; branch: number }) {
       />
       <button
         type="button"
-        onClick={() => dispatch(addFilter({ index, branch }))}
+        onClick={() => {
+          dispatch(incrementIdCounter());
+          dispatch(addFilter({ index, branch, idCounter }))
+        }}
       >
         Add Filter
       </button>

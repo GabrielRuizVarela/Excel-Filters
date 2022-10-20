@@ -23,9 +23,9 @@ function App() {
         {filtersState.map((filter,index) =>
           // add style to Filter, grid-column: filter.branch
           filter.merge ? (
-            <Merge index={index} key={index} branch={filter.branch} />
+            <Merge index={index} key={filter.id} branch={filter.branch} />
           ) : (
-            <Filter index={index} key={index} branch={filter.branch} />
+            <Filter index={index} key={filter.id} branch={filter.branch} />
           ),
         )}
       </FilterContainer>

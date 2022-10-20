@@ -10,6 +10,7 @@ import {
   updateFilteredSheet,
   updateDisplay,
 } from '../features/filterSlice';
+import { incrementIdCounter } from '../features/fileSlice';
 import filterData from '../utils/filterFunctions';
 
 const FilterDiv = styled.div<{ branch: number }>`
@@ -29,6 +30,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
   const wb = useAppSelector((state) => state.file.workbook);
   const filterState = useAppSelector((state) => state.filter);
   const prev = useAppSelector((state) => state.filter[index].prev);
+  const idCounter = useAppSelector((state) => state.file.id);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(
@@ -61,8 +63,13 @@ function Filter({ index, branch }: { index: number; branch: number }) {
 
   return (
     <FilterDiv className="Filter" branch={branch}>
-      <h1>{useAppSelector((state) => state.filter[index].id)}</h1>
-      <p>{prev}</p>
+      <h1>{useAppSelector((state) => index)}</h1>
+      <p>
+        {
+          // find the previous filter index in the filterState array
+          filterState.findIndex((f) => f.id === filterSpec.prev)
+        }
+      </p>
       <label htmlFor="filter-options-select">
         <select
           name="filter-options"
@@ -97,7 +104,10 @@ function Filter({ index, branch }: { index: number; branch: number }) {
       </label>
       <button
         type="button"
-        onClick={() => dispatch(addFilter({ index, branch }))}
+        onClick={() => {
+          dispatch(incrementIdCounter());
+          dispatch(addFilter({ index, branch, idCounter }));
+        }}
       >
         Add Filter
       </button>
@@ -106,7 +116,10 @@ function Filter({ index, branch }: { index: number; branch: number }) {
       </button>
       <button
         type="button"
-        onClick={() => dispatch(addFilter({ index, branch: branch + 1 }))}
+        onClick={() => {
+          dispatch(incrementIdCounter());
+          dispatch(addFilter({ index, branch: branch + 1, idCounter }));
+        }}
       >
         Add Filter in new branch
       </button>
