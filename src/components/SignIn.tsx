@@ -7,7 +7,7 @@ import {
   AuthError,
   signOut,
 } from 'firebase/auth';
-import { FirebaseContext } from './User';
+import { FirebaseContext } from './UserSection';
 
 const provider = new GoogleAuthProvider();
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -15,7 +15,7 @@ const provider = new GoogleAuthProvider();
 function handleSignOut(auth: any, setUser: any) {
   signOut(auth)
     .then(() => {
-      console.log('Signed out');
+      // console.log('Signed out');
       setUser(null);
     })
     .catch((error: AuthError) => {
@@ -23,11 +23,19 @@ function handleSignOut(auth: any, setUser: any) {
     });
 }
 
-export default function SignIn() {
+export default function SignIn({ parentCallback }: any) {
   const auth = useContext(FirebaseContext);
   // const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [user, setUser] = React.useState<User | null>(null);
   const [error, setError] = React.useState<AuthError | null>(null);
+
+  React.useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((u) => {
+      setUser(u);
+      parentCallback(u);
+    });
+    return unsubscribe;
+  }, [auth]);
 
   if (error) {
     return <div>Error: {error.message}</div>;

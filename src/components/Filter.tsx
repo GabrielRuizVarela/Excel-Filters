@@ -17,8 +17,12 @@ const FilterDiv = styled.div<{ branch: number }>`
   display: grid;
   grid-auto-flow: row;
   grid-column: ${(props) => props.branch + 1};
-  max-width: fit-content;
+  max-width: 200px;
   max-height: fit-content;
+  .filter-title{
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
 `;
 
 function Filter({ index, branch }: { index: number; branch: number }) {
@@ -63,9 +67,9 @@ function Filter({ index, branch }: { index: number; branch: number }) {
 
   return (
     <FilterDiv className="Filter" branch={branch}>
-      <h1>{index}</h1>
+      <p className='filter-title'>Filter id: {index}</p>
       <p>
-        {
+        Prev: {
           // find the previous filter index in the filterState array
           filterState.findIndex((f) => f.id === filterSpec.prev)
         }

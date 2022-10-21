@@ -128,6 +128,9 @@ export const filterSlice = createSlice({
     updateMergeInto: (state: Array<FilterState>, action) => {
       state[action.payload.index].mergeInto = action.payload.mergeInto;
     },
+    loadPreset: (state: Array<FilterState>, action) => {
+      return action.payload;
+    },
   },
 });
 
@@ -142,6 +145,7 @@ export const {
   updateDisplay,
   updateOptions,
   updateMergeInto,
+  loadPreset,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;
