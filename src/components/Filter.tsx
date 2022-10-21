@@ -29,7 +29,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
   const filterSpec = useAppSelector((state) => state.filter[index]);
   const wb = useAppSelector((state) => state.file.workbook);
   const filterState = useAppSelector((state) => state.filter);
-  const prev = useAppSelector((state) => state.filter[index].prev);
+  // const prev = useAppSelector((state) => state.filter[index].prev);
   const idCounter = useAppSelector((state) => state.file.id);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -136,7 +136,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
       {/* addMerge button */}
       <button
         type="button"
-        onClick={() => dispatch(addFilter({ index, merge: true }))}
+        onClick={() => dispatch(addFilter({ index, merge: true ,branch}))}
       >
         Add Merge
       </button>
