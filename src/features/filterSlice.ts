@@ -103,7 +103,7 @@ export const filterSlice = createSlice({
       }
       // display needs to be false in the others
       state.forEach((filter, i) => {
-        if (i !== action.payload.index+1) {
+        if (i !== action.payload.index + 1) {
           filter.display = false;
         }
       });
@@ -128,9 +128,7 @@ export const filterSlice = createSlice({
     updateMergeInto: (state: Array<FilterState>, action) => {
       state[action.payload.index].mergeInto = action.payload.mergeInto;
     },
-    loadPreset: (state: Array<FilterState>, action) => {
-      return action.payload;
-    },
+    loadPreset: (state: Array<FilterState>, action) => action.payload,
   },
 });
 

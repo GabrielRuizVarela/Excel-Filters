@@ -28,12 +28,6 @@ export default function UserPresets({ user }: { user: User }) {
   useEffect(() => {
     getPresets();
   }, []);
-  // getPresets();
-  // console.log(querySnapshot)
-
-  // const snapshot = getDoc(docRef)
-  // console.log(document);
-  // console.log(snapshot);
 
   const handleSave = async () => {
     await addDoc(docRef, {
@@ -51,14 +45,12 @@ export default function UserPresets({ user }: { user: User }) {
       <button type="button" onClick={handleSave}>
         Save
       </button>
-      {/* dropdown with presets */}
       <select
         name="presets"
         id="presets"
         defaultValue="presets"
         onChange={(e) => {
           if (e.target.value !== 'presets') {
-            console.log(e.target.value);
             dispatch(loadPreset(presets[parseInt(e.target.value, 10)]));
           }
         }}

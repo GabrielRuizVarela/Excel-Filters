@@ -25,7 +25,6 @@ function handleSignOut(auth: any, setUser: any) {
 
 export default function SignIn({ parentCallback }: any) {
   const auth = useContext(FirebaseContext);
-  // const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [user, setUser] = React.useState<User | null>(null);
   const [error, setError] = React.useState<AuthError | null>(null);
 
@@ -45,7 +44,6 @@ export default function SignIn({ parentCallback }: any) {
     return (
       <div>
         <div>Logged in as {user.displayName}</div>
-        {/* display user photo */}
         <img src={user.photoURL || '#'} alt="user" />
         <button type="button" onClick={() => handleSignOut(auth, setUser)}>
           Sign Out
@@ -56,7 +54,6 @@ export default function SignIn({ parentCallback }: any) {
 
   return (
     <div>
-      {/* <button type='button' onClick={() => signInWithPopup(auth, new GoogleAuthProvider())}> */}
       <input
         type="button"
         onClick={() => {
