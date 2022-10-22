@@ -7,8 +7,6 @@ import {
   getDocs,
   deleteDoc,
   doc,
-  deleteField,
-  where,
 } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import { nanoid } from '@reduxjs/toolkit';
@@ -99,7 +97,6 @@ export default function UserPresets({ user }: { user: User }) {
         ))}
       </select>
       {presetSelected !== '' ? (
-        // delete preset from firebase
         <button type="button" onClick={handleDelete}>
           Delete
         </button>
