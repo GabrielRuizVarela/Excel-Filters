@@ -1,8 +1,22 @@
 import React from 'react';
 // import excelJS from 'exceljs';
 import { read } from 'xlsx';
+import styled from 'styled-components';
 import { updateFile, updateSheet } from '../features/fileSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
+
+const StyledLoadFile = styled.div`
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 1rem;
+  max-height: 4rem;
+  max-width: min-content;
+  .sheet-field {
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+  }
+`;
 
 export default function LoadFile() {
   const filterSheet = useAppSelector((state) => state.file.sheet);
@@ -17,22 +31,24 @@ export default function LoadFile() {
     }
   }
   return (
-    <>
+    <StyledLoadFile>
       <input
         type="file"
         onChange={(e) => handleFileAsync(e)}
         id="input_dom_element"
       />
-      <div id="filter-sheet">Sheet</div>
-      <input
-        type="text"
-        name="filter-sheet"
-        id="filter-sheet-select"
-        value={filterSheet}
-        onChange={(e) =>
-          dispatch(updateSheet(parseInt(e.target.value, 10) || 0))
-        }
-      />
-    </>
+      <div className="sheet-field">
+        <div id="filter-sheet">Sheet</div>
+        <input
+          type="text"
+          name="filter-sheet"
+          id="filter-sheet-select"
+          value={filterSheet}
+          onChange={(e) =>
+            dispatch(updateSheet(parseInt(e.target.value, 10) || 0))
+          }
+        />
+      </div>
+    </StyledLoadFile>
   );
 }

@@ -1,8 +1,17 @@
 import React from 'react';
 import { utils, writeFile } from 'xlsx';
+import styled from 'styled-components';
 import { useAppSelector } from '../app/hooks';
 import filter from '../utils/filterFunctions';
 
+const StyledFileDisplay = styled.div`
+  /* max-width: 100%; */
+  overflow: scroll;
+  max-width: 70vw;
+  border: 2px solid black;
+  padding: 1em;
+  
+`;
 export default function FileDisplay({ index }: { index: number }) {
   const [fileName, setFileName] = React.useState('Filtered Data');
   const filterType = useAppSelector((state) => state.filter[index].type);
@@ -25,16 +34,16 @@ export default function FileDisplay({ index }: { index: number }) {
   utils.book_append_sheet(newWb, filteredData || {}, 'filtered');
   try {
     if (filteredData?.['!ref']) {
-      dataHtml = utils.sheet_to_html(filteredData);
+      dataHtml = utils.sheet_to_html(filteredData, { editable: true });
     }
   } catch (e) {
     console.log(e);
   }
   return (
     <div>
-      {ws ? (
+      {dataHtml ? (
         <>
-          <div
+          <StyledFileDisplay
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: dataHtml,

@@ -8,6 +8,7 @@ import {
   signOut,
 } from 'firebase/auth';
 import { FirebaseContext } from './UserSection';
+import styled from 'styled-components';
 
 const provider = new GoogleAuthProvider();
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -22,6 +23,11 @@ function handleSignOut(auth: any, setUser: any) {
       console.log(error);
     });
 }
+
+const StyledSignIn = styled.div`
+  justify-self: right;
+  
+  `;
 
 export default function SignIn({ parentCallback }: any) {
   const auth = useContext(FirebaseContext);
@@ -42,13 +48,13 @@ export default function SignIn({ parentCallback }: any) {
 
   if (user) {
     return (
-      <div>
+      <StyledSignIn>
         <div>Logged in as {user.displayName}</div>
         <img src={user.photoURL || '#'} alt="user" />
         <button type="button" onClick={() => handleSignOut(auth, setUser)}>
           Sign Out
         </button>
-      </div>
+      </StyledSignIn>
     );
   }
 

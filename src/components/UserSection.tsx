@@ -4,8 +4,19 @@ import React from 'react';
 import { initializeApp } from 'firebase/app';
 // import { getAnalytics } from 'firebase/analytics';
 import { getAuth, User } from 'firebase/auth';
+import styled from 'styled-components';
 import SignIn from './SignIn';
 import UserPresets from './UserPresets';
+
+const StyledUserSection = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  width: 100%;
+  padding: 2rem;
+  justify-items: space-between;
+
+`;
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -37,8 +48,10 @@ export default function UserSection() {
 
   return (
     <FirebaseContext.Provider value={auth}>
-      <SignIn parentCallback={Usercallback} />
-      {user ? <UserPresets user={user} /> : null}
+      <StyledUserSection className="UserSection">
+        {user ? <UserPresets user={user} /> : null}
+        <SignIn parentCallback={Usercallback} className='signIn' />
+      </StyledUserSection>
     </FirebaseContext.Provider>
   );
 }
