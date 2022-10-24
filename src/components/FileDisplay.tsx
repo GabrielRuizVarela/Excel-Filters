@@ -10,8 +10,8 @@ const StyledFileDisplay = styled.div`
   max-width: 70vw;
   border: 2px solid black;
   padding: 1em;
-  
 `;
+
 export default function FileDisplay({ index }: { index: number }) {
   const [fileName, setFileName] = React.useState('Filtered Data');
   const filterType = useAppSelector((state) => state.filter[index].type);

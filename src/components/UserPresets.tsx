@@ -52,17 +52,14 @@ export default function UserPresets({ user }: { user: User }) {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPresetSelected(e.target.value);
     if (e.target.value !== '') {
-      console.log(presets[presetList.indexOf(e.target.value) - 1]);
       dispatch(loadPreset(presets[presetList.indexOf(e.target.value) - 1]));
     }
   };
 
   const handleDelete = async () => {
     if (presetSelected !== '') {
-      const index = presetList.findIndex(
-        (preset) => preset === presetSelected
-      );
-      const ref = doc(docRef ,presetUuid[index - 1]);
+      const index = presetList.findIndex((preset) => preset === presetSelected);
+      const ref = doc(docRef, presetUuid[index - 1]);
       await deleteDoc(ref);
 
       getPresets();
