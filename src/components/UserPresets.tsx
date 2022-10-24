@@ -18,7 +18,7 @@ export default function UserPresets({ user }: { user: User }) {
   const dispatch = useAppDispatch();
   const auth = React.useContext(FirebaseContext);
   const db = getFirestore(auth.app);
-  const [presets, setPresets] = React.useState<FilterState[]>([]);
+  const [presets, setPresets] = React.useState<FilterState[][]>([]);
   const [presetName, setPresetName] = React.useState('Preset Name');
   const [presetList, setPresetList] = React.useState<string[]>([]);
   const [presetSelected, setPresetSelected] = React.useState<string>('');
@@ -31,7 +31,7 @@ export default function UserPresets({ user }: { user: User }) {
     const data = querySnapshot.docs.map((d) => d.data().filters);
     const uuids = querySnapshot.docs.map((d) => d.id);
     setPresetUuid(uuids);
-    setPresets(data as FilterState[]);
+    setPresets(data as FilterState[][]);
     setPresetList(['', ...querySnapshot.docs.map((d) => d.data().presetName)]);
   };
   useEffect(() => {
@@ -49,9 +49,21 @@ export default function UserPresets({ user }: { user: User }) {
     getPresets();
   };
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>, ws) => {
     setPresetSelected(e.target.value);
     if (e.target.value !== '') {
+      setPresets(
+        presets.map((preset, i) => {
+          if (i === presetList.indexOf(e.target.value) - 1) {
+            preset.map((filter) => {
+              if (filter.filteredSheet) filter.filteredSheet = ws;
+              return filter;
+            });
+            return preset;
+          }
+          return preset;
+        }),
+      );
       dispatch(loadPreset(presets[presetList.indexOf(e.target.value) - 1]));
     }
   };
@@ -65,6 +77,8 @@ export default function UserPresets({ user }: { user: User }) {
       getPresets();
     }
   };
+  const wb = useAppSelector((state) => state.file.workbook);
+  const sheet = useAppSelector((state) => state.file.sheet);
 
   return (
     <div>
@@ -86,7 +100,9 @@ export default function UserPresets({ user }: { user: User }) {
         name="presets"
         id="presets"
         value={presetSelected}
-        onChange={(e) => handleSelect(e)}
+        onChange={(e) =>
+          handleSelect(e, wb?.Sheets[wb.SheetNames[sheet]] || {})
+        }
       >
         {presetList.map((preset) => (
           <option value={preset} key={nanoid()}>

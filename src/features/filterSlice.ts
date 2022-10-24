@@ -128,7 +128,15 @@ export const filterSlice = createSlice({
     updateMergeInto: (state: Array<FilterState>, action) => {
       state[action.payload.index].mergeInto = action.payload.mergeInto;
     },
-    loadPreset: (state: Array<FilterState>, action) => action.payload,
+    loadPreset: (state: Array<FilterState>, action) => {
+      state.forEach((filter, index) => {
+        if (index !== state.length - 1) {
+          state[index].display = false;
+        }
+      });
+      state[state.length-1].display = true
+      return action.payload
+    },
   },
 });
 
