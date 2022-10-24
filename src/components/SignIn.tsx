@@ -7,8 +7,8 @@ import {
   AuthError,
   signOut,
 } from 'firebase/auth';
-import { FirebaseContext } from './UserSection';
 import styled from 'styled-components';
+import { FirebaseContext } from './UserSection';
 
 const provider = new GoogleAuthProvider();
 // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -26,8 +26,7 @@ function handleSignOut(auth: any, setUser: any) {
 
 const StyledSignIn = styled.div`
   justify-self: right;
-  
-  `;
+`;
 
 export default function SignIn({ parentCallback }: any) {
   const auth = useContext(FirebaseContext);

@@ -11,13 +11,14 @@ import UserSection from './components/UserSection';
 const FilterContainer = styled.div`
   display: grid;
   grid-auto-flow: row;
-  grid-gap: 2rem;
+  grid-column-gap: 0.5rem;
+  grid-gap: 0.5rem;
   border-right: 2px solid white;
   justify-items: center;
   width: 100%;
   /* max-width:  */
   /* padding: 2rem; */
-  grid-row: 2/3;
+  grid-row: 1/3;
   align-self: start;
   max-height: fit-content;
 `;
@@ -25,36 +26,39 @@ const FilterContainer = styled.div`
 const StyledApp = styled.div`
   display: grid;
   justify-content: start;
-  grid-template-columns: 20vw 80vw;
   grid-gap: 2rem;
   justify-items: center;
   max-width: 100vw;
-  /* overflow-x: scroll; */
+
   .fileDispay {
     grid-column: 2/3;
     grid-row: 2/3;
     max-width: 80vw;
   }
-  .UserSection{
-    grid-column: 1/3;
+  .UserSection {
+    grid-column: 2/3;
   }
 `;
 
+
 function App() {
   const filtersState = useAppSelector((state) => state.filter);
-
   return (
     <StyledApp className="App">
       <FilterContainer>
         <LoadFile />
-        {filtersState.map((filter, index) =>
-          // add style to Filter, grid-column: filter.branch
-          filter.merge ? (
-            <Merge index={index} key={filter.id} branch={filter.branch} />
-          ) : (
-            <Filter index={index} key={filter.id} branch={filter.branch} />
-          ),
-        )}
+          {filtersState.map((filter, index) =>
+            // add style to Filter, grid-column: filter.branch
+            filter.merge ? (
+              <Merge index={index} key={filter.id} branch={filter.branch} />
+            ) : (
+              <Filter
+                index={index}
+                key={filter.id}
+                branch={filter.branch}
+              />
+            ),
+          )}
       </FilterContainer>
       <UserSection />
       <div className="fileDispay">

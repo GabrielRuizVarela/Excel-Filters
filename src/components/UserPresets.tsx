@@ -52,7 +52,8 @@ export default function UserPresets({ user }: { user: User }) {
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPresetSelected(e.target.value);
     if (e.target.value !== '') {
-      dispatch(loadPreset(presets[parseInt(e.target.value, 10)]));
+      console.log(presets[presetList.indexOf(e.target.value) - 1]);
+      dispatch(loadPreset(presets[presetList.indexOf(e.target.value) - 1]));
     }
   };
 
