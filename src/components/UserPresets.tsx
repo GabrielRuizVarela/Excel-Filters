@@ -10,6 +10,7 @@ import {
 } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 import { nanoid } from '@reduxjs/toolkit';
+import { WorkSheet } from 'xlsx';
 import { FirebaseContext } from './UserSection';
 import { FilterState, loadPreset } from '../features/filterSlice';
 import { useAppSelector, useAppDispatch } from '../app/hooks';
@@ -49,13 +50,17 @@ export default function UserPresets({ user }: { user: User }) {
     getPresets();
   };
 
-  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>, ws) => {
+  const handleSelect = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    ws: WorkSheet,
+  ) => {
     setPresetSelected(e.target.value);
     if (e.target.value !== '') {
       setPresets(
         presets.map((preset, i) => {
           if (i === presetList.indexOf(e.target.value) - 1) {
             preset.map((filter) => {
+              // eslint-disable-next-line no-param-reassign
               if (filter.filteredSheet) filter.filteredSheet = ws;
               return filter;
             });
