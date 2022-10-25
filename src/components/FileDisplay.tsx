@@ -8,8 +8,14 @@ const StyledFileDisplay = styled.div`
   /* max-width: 100%; */
   overflow: scroll;
   max-width: 70vw;
-  border: 2px solid black;
+  /* border: 2px solid black; */
   padding: 1em;
+  table {
+  }
+  tr:nth-child(even) {
+    /* padding: 2rem; */
+    background-color: #0000006a;
+  }
 `;
 
 export default function FileDisplay({ index }: { index: number }) {
@@ -24,7 +30,7 @@ export default function FileDisplay({ index }: { index: number }) {
     range: filterRange,
     sheet: filterSheet,
   };
-  let dataHtml = '<div></div>';
+  let dataHtml = '';
   const ws = useAppSelector(
     (state) => state.filter.find((f) => f.display)?.filteredSheet,
   );
@@ -40,7 +46,7 @@ export default function FileDisplay({ index }: { index: number }) {
     console.log(e);
   }
   return (
-    <div>
+    <div className="flex flex-col border p-2">
       {dataHtml ? (
         <>
           <StyledFileDisplay
@@ -49,17 +55,21 @@ export default function FileDisplay({ index }: { index: number }) {
               __html: dataHtml,
             }}
           />
-          <button
-            type="button"
-            onClick={() => writeFile(newWb, `${fileName}.xlsx`)}
-          >
-            Download
-          </button>
-          <input
-            type="text"
-            value={fileName}
-            onChange={(e) => setFileName(e.target.value)}
-          />
+          <div className='self-center'>
+            <input
+              type="text"
+              value={fileName}
+              className="input input-ghost input-xs input-bordered w-full max-w-xs w-fit text-accent"
+              onChange={(e) => setFileName(e.target.value)}
+            />
+            <button
+              type="button"
+              className="btn btn-xs text-white bg-accent px-2 py-1 w-fit "
+              onClick={() => writeFile(newWb, `${fileName}.xlsx`)}
+            >
+              Download
+            </button>
+          </div>
         </>
       ) : (
         <div>Not Loaded</div>
