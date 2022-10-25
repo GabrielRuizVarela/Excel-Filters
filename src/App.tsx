@@ -13,7 +13,7 @@ const FilterContainer = styled.div`
   grid-auto-flow: row;
   grid-column-gap: 0.5rem;
   grid-gap: 0.5rem;
-  border-right: 2px solid white;
+  /* border-right: 2px solid white; */
   justify-items: center;
   width: 100%;
   min-width: 20vw;
@@ -24,6 +24,7 @@ const FilterContainer = styled.div`
   align-self: start;
   max-height: fit-content;
   padding-top: 4rem;
+
 
  @media (max-width: 768px) { 
     grid-row: 2;
