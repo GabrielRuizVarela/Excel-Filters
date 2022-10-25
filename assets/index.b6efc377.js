@@ -3040,6 +3040,18 @@ This typically indicates that your device does not have a healthy Internet conne
   align-self: start;
   max-height: fit-content;
   padding-top: 4rem;
+
+ @media (max-width: 768px) { 
+    grid-row: 2;
+    grid-column: 1;
+    border-right: none;
+    border-bottom: 2px solid white;
+    /* max-height: 20vh; */
+    max-width: fit-content;
+    justify-content: center;
+    overflow-y: scroll;
+    padding-top: 0;
+  }
 `,wY=Ka.div`
   display: grid;
   justify-content: start;
@@ -3058,5 +3070,19 @@ This typically indicates that your device does not have a healthy Internet conne
     grid-column: 2/3;
     width: 100%;
     height: min-content;
+  }
+  /* add media query for mobile */
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    /* justify-items: center; */
+    .fileDispay {
+      grid-column: 1/1;
+      grid-row: 3;
+    }
+    .UserSection {
+      grid-column: 1;
+      grid-row: 1;
+    }
   }
 `;function _Y(){const e=Tt(t=>t.filter);return yt(wY,{className:"App",children:[yt(yY,{children:[ye(SW,{}),e.map((t,r)=>t.merge?ye(CW,{index:r,branch:t.branch},t.id):ye(wW,{index:r,branch:t.branch},t.id))]}),ye(xY,{}),ye("div",{className:"fileDispay",children:ye(EW,{index:0})})]})}v1.createRoot(document.getElementById("root")).render(ye(or.StrictMode,{children:ye(cO,{children:ye(db,{store:nR,children:ye(lO,{children:ye(cT,{path:"/",element:ye(_Y,{})})})})})}));
