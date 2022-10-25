@@ -3029,7 +3029,7 @@ This typically indicates that your device does not have a healthy Internet conne
   grid-auto-flow: row;
   grid-column-gap: 0.5rem;
   grid-gap: 0.5rem;
-  border-right: 2px solid white;
+  /* border-right: 2px solid white; */
   justify-items: center;
   width: 100%;
   min-width: 20vw;
@@ -3040,6 +3040,7 @@ This typically indicates that your device does not have a healthy Internet conne
   align-self: start;
   max-height: fit-content;
   padding-top: 4rem;
+
 
  @media (max-width: 768px) { 
     grid-row: 2;
