@@ -17,7 +17,7 @@ const FilterDiv = styled.div<{ branch: number }>`
   /* display: grid; */
   /* grid-auto-flow: row; */
   grid-column: ${(props) => props.branch + 1};
-  width: 150px;
+  width: 160px;
   /* max-width: fit-content; */
   /* max-width: min-content; */
   /* gap: 0.25rem; */
@@ -74,18 +74,18 @@ function Filter({ index, branch }: { index: number; branch: number }) {
     filterState.find((f) => f.id === filterSpec.prev)?.filteredSheet,
   ]);
 
-  const displayPrev = filterState.findIndex((f) => f.id === filterSpec.prev);
+  // const displayPrev = filterState.findIndex((f) => f.id === filterSpec.prev);
   return (
     <FilterDiv className="Filter" branch={branch}>
-      <div className="card bg-gray-900 p-4 grid gap-1">
-        <div className="flex gap-2 border border-primary px-1">
-          <p>
+      <div className="card bg-gray-900 p-4 grid gap-1 border border-secondary">
+        <div className="flex gap-2 justify-center">
+          {/* <p>
             Prev:{' '}
             {
               // find the previous filter index in the filterState array
               displayPrev === -1 ? 'File' : displayPrev
             }
-          </p>
+          </p> */}
           <p className="filter-title">ID: {index}</p>
         </div>
         <div className="flex justify-center items-center">
@@ -137,9 +137,9 @@ function Filter({ index, branch }: { index: number; branch: number }) {
             }
           />
         </label>
-        <div className="container grid grid-cols-2 gap-2">
+        <div className="container grid grid-cols-2 gap-1">
           <button
-            className="btn btn-xs btn-outline btn-primary text-xl p-0"
+            className="btn btn-xs text-white bg-primary text-xl p-0"
             type="button"
             onClick={() => {
               dispatch(incrementIdCounter());
@@ -149,14 +149,14 @@ function Filter({ index, branch }: { index: number; branch: number }) {
             +
           </button>
           <button
-            className="btn btn-xs btn-outline btn-secondary text-xl p-0"
+            className="btn btn-xs btn-outline text-white bg-secondary text-xl p-0"
             type="button"
             onClick={() => dispatch(removeFilter(index))}
           >
             -
           </button>
           <button
-            className="btn btn-xs btn-outline btn-primary px-2"
+            className="btn btn-xs  text-white bg-primary px-2"
             type="button"
             onClick={() => {
               dispatch(incrementIdCounter());
@@ -166,7 +166,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
             +branch
           </button>
           <button
-            className="btn btn-xs btn-outline btn-secondary px-2"
+            className="btn btn-xs  text-white bg-secondary px-2"
             type="button"
             onClick={() => dispatch(addFilter({ index, merge: true, branch }))}
           >

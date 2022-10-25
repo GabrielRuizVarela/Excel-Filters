@@ -6,11 +6,11 @@ import { updateFile, updateSheet } from '../features/fileSlice';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 
 const StyledLoadFile = styled.div`
-  display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 1rem;
-  max-height: 4rem;
-  max-width: min-content;
+  /* display: grid; */
+  /* grid-template-rows: 1fr 1fr; */
+  /* grid-gap: 1rem; */
+  /* max-height: 4rem; */
+  /* max-width: min-content; */
   .sheet-field {
     display: grid;
     grid-gap: 0.5rem;
@@ -32,22 +32,29 @@ export default function LoadFile() {
   }
   return (
     <StyledLoadFile>
+      <div className="grid p-2 gap-1 mb-4">
       <input
-        type="file"
-        onChange={(e) => handleFileAsync(e)}
-        id="input_dom_element"
-      />
-      <div className="sheet-field">
-        <div id="filter-sheet">Sheet</div>
-        <input
-          type="text"
-          name="filter-sheet"
-          id="filter-sheet-select"
-          value={filterSheet}
-          onChange={(e) =>
-            dispatch(updateSheet(parseInt(e.target.value, 10) || 0))
-          }
+          type="file"
+          onChange={(e) => handleFileAsync(e)}
+          id="input_dom_element"
+          className="btn btn-xs text-white bg-secondary p-2.5 flex h-min"
         />
+        <div className="form-control w-full max-w-xs">
+          <label className="label" htmlFor="filter-sheet-select">
+            <span className="label-text">Sheet</span>
+          </label>
+          <input
+            className="input input-bordered w-full input-xs"
+            type="text"
+            name="filter-sheet"
+            id="filter-sheet-select"
+            value={filterSheet}
+            onChange={(e) =>
+              dispatch(updateSheet(parseInt(e.target.value, 10) || 0))
+            }
+          />
+        </div>
+        
       </div>
     </StyledLoadFile>
   );
