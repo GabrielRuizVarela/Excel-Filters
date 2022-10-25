@@ -42,32 +42,33 @@ export default function SignIn({ parentCallback }: any) {
 
   if (user) {
     return (
-        <div className="flex items-center w-fit py-4 justify-self-end">
-          <div className="avatar px-4">
-            <div
-              className="w-24 rounded-full 
+      <div className="flex items-center w-fit py-4 justify-self-end">
+        <div className="avatar px-4">
+          <div
+            className="w-24 rounded-full 
           ring ring-accent ring-offset-base-100 ring-offset-1"
-            >
-              <img src={user.photoURL || '#'} alt="user" />
-            </div>
-          </div>
-          <div className="flex flex-col items-center p-4">
-            <div className="text-white text-sm"> {user.displayName}</div>
-            <button
-              className="btn btn-outline btn-xs text-white"
-              type="button"
-              onClick={() => handleSignOut(auth, setUser)}
-            >
-              Sign Out
-            </button>
+          >
+            <img src={user.photoURL || '#'} alt="user" />
           </div>
         </div>
+        <div className="flex flex-col items-center p-4">
+          <div className="text-white text-sm"> {user.displayName}</div>
+          <button
+            className="btn btn-outline btn-xs text-white"
+            type="button"
+            onClick={() => handleSignOut(auth, setUser)}
+          >
+            Sign Out
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <div className="flex items-center w-fit py-4 justify-self-end">
+    <div className="flex flex-col items-center w-fit py-4 justify-self-end">
       <input
+        className="btn btn-xs  text-white bg-accent px-2"
         type="button"
         onClick={() => {
           signInWithPopup(auth, provider)
@@ -78,6 +79,7 @@ export default function SignIn({ parentCallback }: any) {
         }}
         value="Sign in with Google"
       />
+      <span><em>*and save presets</em></span>
     </div>
   );
 }

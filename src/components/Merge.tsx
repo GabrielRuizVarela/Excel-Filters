@@ -13,11 +13,15 @@ import {
 } from '../features/filterSlice';
 import { incrementIdCounter } from '../features/fileSlice';
 
-
 const StyledDiv = styled.div<{ branch: number }>`
   display: grid;
   grid-auto-flow: row;
   grid-column: ${(props) => props.branch + 1};
+  width: 160px;
+  .btn {
+    width: 100%;
+    height: min-content;
+  }
 `;
 
 function handleMerge(filterState: FilterState[], index: number) {
@@ -72,59 +76,75 @@ function Merge({ index, branch }: { index: number; branch: number }) {
 
   return (
     <StyledDiv branch={branch}>
-      <h1>Merge {id}</h1>
-      <p>{prev}</p>
-      <span>Merge Into Filter</span>
+      <div className="card bg-gray-900 p-4 grip gap-1 border border-secondary justify-center">
+        <p className="self-center">ID: {id}</p>
+        {/* <p>{prev}</p> */}
+        <div className='flex gap-2 justify-center'>
+        <span>Show</span>
+        <input
+          type="checkbox"
+          name="display"
+          id="display"
+          className="checkbox checkbox-accent self-center m-0"
+          checked={useAppSelector((state) => state.filter[index].display)}
+          onChange={(e) =>
+            dispatch(updateDisplay({ display: e.target.checked, index }))
+          }
+          />
+          </div>
+        <div className="flex items-center justify-center">
+          <span>Merge with:</span>
+          <input
+            className="input input-ghost input-xs input-bordered w-8 ml-1"
+            type="text"
+            id="merge-into"
+            name="merge-into"
+            placeholder="id"
+            value={mergeInto}
+            onChange={(e) =>
+              dispatch(
+                updateMergeInto({
+                  mergeInto: parseInt(e.target.value, 10) || 0,
+                  index,
+                }),
+              )
+            }
+          />
+        </div>
+        <span>Options</span>
 
-      <input
-        type="text"
-        id="merge-into"
-        name="merge-into"
-        placeholder="id"
-        value={mergeInto}
-        onChange={(e) =>
-          dispatch(
-            updateMergeInto({
-              mergeInto: parseInt(e.target.value, 10) || 0,
-              index,
-            }),
-          )
-        }
-      />
-      <span>Options</span>
+        <select
+          className="select select-xs select-accent w-full max-w-xs"
+          name="merge-options"
+          id="merge-options"
+          onChange={(e) =>
+            dispatch(updateOptions({ action: e.target.value, index }))
+          }
+        >
+          <option value="stacked">Stacked</option>
+          {/* <option value="sideways">Side by Side</option> */}
+        </select>
 
-      <select
-        name="merge-options"
-        id="merge-options"
-        onChange={(e) =>
-          dispatch(updateOptions({ action: e.target.value, index }))
-        }
-      >
-        <option value="stacked">Stacked</option>
-        <option value="sideways">Side by Side</option>
-      </select>
-      <span>Display</span>
-      <input
-        type="checkbox"
-        name="display"
-        id="display"
-        checked={useAppSelector((state) => state.filter[index].display)}
-        onChange={(e) =>
-          dispatch(updateDisplay({ display: e.target.checked, index }))
-        }
-      />
-      <button
-        type="button"
-        onClick={() => {
-          dispatch(incrementIdCounter());
-          dispatch(addFilter({ index, branch, idCounter }))
-        }}
-      >
-        Add Filter
-      </button>
-      <button type="button" onClick={() => dispatch(removeFilter(index))}>
-        Remove Filter
-      </button>
+        <div className="container grid grid-cols-2 gap-1">
+          <button
+            type="button"
+            className="btn btn-xs text-white bg-primary text-xl p-0"
+            onClick={() => {
+              dispatch(incrementIdCounter());
+              dispatch(addFilter({ index, branch, idCounter }));
+            }}
+          >
+            +
+          </button>
+          <button
+            className="btn btn-xs btn-outline text-white bg-secondary text-xl p-0"
+            type="button"
+            onClick={() => dispatch(removeFilter(index))}
+          >
+            -
+          </button>
+        </div>
+      </div>
     </StyledDiv>
   );
 }

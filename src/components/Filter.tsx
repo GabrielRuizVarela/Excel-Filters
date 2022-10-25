@@ -78,7 +78,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
   return (
     <FilterDiv className="Filter" branch={branch}>
       <div className="card bg-gray-900 p-4 grid gap-1 border border-secondary">
-        <div className="flex gap-2 justify-center">
+        {/* <div className="flex gap-2 justify-center"> */}
           {/* <p>
             Prev:{' '}
             {
@@ -86,8 +86,8 @@ function Filter({ index, branch }: { index: number; branch: number }) {
               displayPrev === -1 ? 'File' : displayPrev
             }
           </p> */}
-          <p className="filter-title">ID: {index}</p>
-        </div>
+          <p className="filter-title flex justify-center">ID: {index}</p>
+        {/* </div> */}
         <div className="flex justify-center items-center">
           {/* <div className="text-black"> */}
           <span className="pr-2 font-xs">Show</span>
