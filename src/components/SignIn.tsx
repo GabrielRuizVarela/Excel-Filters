@@ -7,7 +7,6 @@ import {
   AuthError,
   signOut,
 } from 'firebase/auth';
-import styled from 'styled-components';
 import { FirebaseContext } from './UserSection';
 
 const provider = new GoogleAuthProvider();
@@ -23,10 +22,6 @@ function handleSignOut(auth: any, setUser: any) {
       console.log(error);
     });
 }
-
-const StyledSignIn = styled.div`
-  justify-self: right;
-`;
 
 export default function SignIn({ parentCallback }: any) {
   const auth = useContext(FirebaseContext);
@@ -47,18 +42,31 @@ export default function SignIn({ parentCallback }: any) {
 
   if (user) {
     return (
-      <StyledSignIn>
-        <div>Logged in as {user.displayName}</div>
-        <img src={user.photoURL || '#'} alt="user" />
-        <button type="button" onClick={() => handleSignOut(auth, setUser)}>
-          Sign Out
-        </button>
-      </StyledSignIn>
+        <div className="flex items-center w-fit py-4 justify-self-end">
+          <div className="avatar px-4">
+            <div
+              className="w-24 rounded-full 
+          ring ring-accent ring-offset-base-100 ring-offset-1"
+            >
+              <img src={user.photoURL || '#'} alt="user" />
+            </div>
+          </div>
+          <div className="flex flex-col items-center p-4">
+            <div className="text-white text-sm"> {user.displayName}</div>
+            <button
+              className="btn btn-outline btn-xs text-white"
+              type="button"
+              onClick={() => handleSignOut(auth, setUser)}
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
     );
   }
 
   return (
-    <div>
+    <div className="flex items-center w-fit py-4 justify-self-end">
       <input
         type="button"
         onClick={() => {

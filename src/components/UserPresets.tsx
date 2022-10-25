@@ -86,22 +86,33 @@ export default function UserPresets({ user }: { user: User }) {
   const sheet = useAppSelector((state) => state.file.sheet);
 
   return (
-    <div>
-      <h1>Presets</h1>
-      <div id="save-preset">
+    <div className="card w-40 border border-secondary p-4 h-min">
+      <h1
+      className='text-2xl font-bold text-center'
+      >Presets</h1>
+      <div
+        id="save-preset"
+        className="flex flex-col items-center justify-center   "
+      >
         <input
+          className="input input-ghost input-xs input-bordered w-full max-w-xs text-accent"
           type="text"
           name="preset-name"
           id="preset-name"
           value={presetName}
           onChange={(e) => setPresetName(e.target.value)}
         />
-        <button type="button" onClick={handleSave}>
-          Save as Preset
+        <button
+          type="button"
+          onClick={handleSave}
+          className="btn btn-xs text-white bg-primary text-xs px-2"
+        >
+          Save
         </button>
       </div>
-      <span>Presets:</span>
+      {/* <span>Presets:</span> */}
       <select
+        className="btn btn-xs text-white bg-primary text-xs p-0 h-2"
         name="presets"
         id="presets"
         value={presetSelected}
@@ -111,12 +122,16 @@ export default function UserPresets({ user }: { user: User }) {
       >
         {presetList.map((preset) => (
           <option value={preset} key={nanoid()}>
-            {preset}
+            {preset=== ''?'Presets':preset}
           </option>
         ))}
       </select>
       {presetSelected !== '' ? (
-        <button type="button" onClick={handleDelete}>
+        <button
+          className="btn btn-xs text-white bg-accent self-center items-center text-xs w-20"
+          type="button"
+          onClick={handleDelete}
+        >
           Delete
         </button>
       ) : null}
