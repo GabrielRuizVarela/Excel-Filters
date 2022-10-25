@@ -24,6 +24,18 @@ const FilterContainer = styled.div`
   align-self: start;
   max-height: fit-content;
   padding-top: 4rem;
+
+ @media (max-width: 768px) { 
+    grid-row: 2;
+    grid-column: 1;
+    border-right: none;
+    border-bottom: 2px solid white;
+    /* max-height: 20vh; */
+    max-width: fit-content;
+    justify-content: center;
+    overflow-y: scroll;
+    padding-top: 0;
+  }
 `;
 
 const StyledApp = styled.div`
@@ -44,6 +56,20 @@ const StyledApp = styled.div`
     grid-column: 2/3;
     width: 100%;
     height: min-content;
+  }
+  /* add media query for mobile */
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr;
+    /* justify-items: center; */
+    .fileDispay {
+      grid-column: 1/1;
+      grid-row: 3;
+    }
+    .UserSection {
+      grid-column: 1;
+      grid-row: 1;
+    }
   }
 `;
 
