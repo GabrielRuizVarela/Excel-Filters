@@ -14,21 +14,10 @@ import { incrementIdCounter } from '../features/fileSlice';
 import filterData from '../utils/filterFunctions';
 
 const FilterDiv = styled.div<{ branch: number; row: number }>`
-  /* display: grid; */
-  /* grid-auto-flow: row; */
   grid-column: ${(props) => props.branch + 1};
   grid-row: ${(props) => props.row + 2};
   width: 160px;
-  /* max-width: fit-content; */
-  /* max-width: min-content; */
-  /* gap: 0.25rem; */
-  /* justify-items: center; */
   max-height: fit-content;
-  /* padding: 0.5rem; */
-  /* .filter-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-  } */
   .btn {
     width: 100%;
     height: min-content;
@@ -51,7 +40,6 @@ function Filter({
   const filterSpec = useAppSelector((state) => state.filter[index]);
   const wb = useAppSelector((state) => state.file.workbook);
   const filterState = useAppSelector((state) => state.filter);
-  // const prev = useAppSelector((state) => state.filter[index].prev);
   const idCounter = useAppSelector((state) => state.file.id);
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -140,7 +128,6 @@ function Filter({
             className="btn btn-xs text-white bg-primary text-xl p-0"
             type="button"
             onClick={(e) => {
-              // si ningun filtro en la misma rama tiene como previo a este filtro
               if (
                 filterState.some(
                   (f) =>
@@ -167,14 +154,12 @@ function Filter({
             className="btn btn-xs  text-white bg-primary px-2"
             type="button"
             onClick={(e) => {
-              // if there isnt another branch created on the same level
               if (
                 filterState.findIndex(
                   (f) =>
-                    filterState[index].id === f.prev && f.branch === branch + 1,
+                    filterSpec.id === f.prev && f.branch === branch + 1,
                 ) !== -1
               ) {
-                // shake the button and return
                 e.currentTarget.classList.add('shake');
                 return;
               }
