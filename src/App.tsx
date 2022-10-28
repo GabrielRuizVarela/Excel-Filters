@@ -23,7 +23,7 @@ const FilterContainer = styled.div`
   max-height: fit-content;
   padding-top: 4rem;
 
- @media (max-width: 768px) { 
+  @media (max-width: 768px) {
     grid-row: 2;
     grid-column: 1;
     border-right: none;
@@ -71,13 +71,24 @@ function App() {
     <StyledApp className="App">
       <FilterContainer>
         <LoadFile />
-        {filtersState.map((filter, index) =>
-          filter.merge ? (
-            <Merge index={index} key={filter.id} branch={filter.branch} />
-          ) : (
-            <Filter index={index} key={filter.id} branch={filter.branch} />
-          ),
-        )}
+        {filtersState
+          .map((filter, index) =>
+            filter.merge ? (
+              <Merge
+                index={index}
+                key={filter.id}
+                branch={filter.branch}
+                row={filter.row}
+              />
+            ) : (
+              <Filter
+                index={index}
+                key={filter.id}
+                branch={filter.branch}
+                row={filter.row}
+              />
+            ),
+          )}
       </FilterContainer>
       <UserSection />
       <div className="fileDispay">

@@ -13,10 +13,12 @@ import {
 } from '../features/filterSlice';
 import { incrementIdCounter } from '../features/fileSlice';
 
-const StyledDiv = styled.div<{ branch: number }>`
+const StyledDiv = styled.div<{ branch: number; row: number }>`
   display: grid;
   grid-auto-flow: row;
   grid-column: ${(props) => props.branch + 1};
+  grid-row: ${(props) => props.row + 2};
+
   width: 160px;
   .btn {
     width: 100%;
@@ -52,12 +54,18 @@ function handleMerge(filterState: FilterState[], index: number) {
   return prev.filteredSheet || {};
 }
 
-function Merge({ index, branch }: { index: number; branch: number }) {
+function Merge({
+  index,
+  branch,
+  row,
+}: {
+  index: number;
+  branch: number;
+  row: number;
+}) {
   const id = useAppSelector((state) => state.filter[index].id);
   const filterState = useAppSelector((state) => state.filter);
   const mergeInto = useAppSelector((state) => state.filter[index].mergeInto);
-  // const options = useAppSelector((state) => state.filter[index].options);
-  const prev = useAppSelector((state) => state.filter[index].prev);
   const idCounter = useAppSelector((state) => state.file.id);
   const dispatch = useAppDispatch();
 
@@ -75,23 +83,23 @@ function Merge({ index, branch }: { index: number; branch: number }) {
   ]);
 
   return (
-    <StyledDiv branch={branch}>
+    <StyledDiv branch={branch} row={row}>
       <div className="card bg-gray-900 p-4 grip gap-1 border border-secondary justify-center">
         <p className="self-center">ID: {id}</p>
         {/* <p>{prev}</p> */}
-        <div className='flex gap-2 justify-center'>
-        <span>Show</span>
-        <input
-          type="checkbox"
-          name="display"
-          id="display"
-          className="checkbox checkbox-accent self-center m-0"
-          checked={useAppSelector((state) => state.filter[index].display)}
-          onChange={(e) =>
-            dispatch(updateDisplay({ display: e.target.checked, index }))
-          }
+        <div className="flex gap-2 justify-center">
+          <span>Show</span>
+          <input
+            type="checkbox"
+            name="display"
+            id="display"
+            className="checkbox checkbox-accent self-center m-0"
+            checked={useAppSelector((state) => state.filter[index].display)}
+            onChange={(e) =>
+              dispatch(updateDisplay({ display: e.target.checked, index }))
+            }
           />
-          </div>
+        </div>
         <div className="flex items-center justify-center">
           <span>Merge with:</span>
           <input

@@ -13,10 +13,11 @@ import {
 import { incrementIdCounter } from '../features/fileSlice';
 import filterData from '../utils/filterFunctions';
 
-const FilterDiv = styled.div<{ branch: number }>`
+const FilterDiv = styled.div<{ branch: number; row: number }>`
   /* display: grid; */
   /* grid-auto-flow: row; */
   grid-column: ${(props) => props.branch + 1};
+  grid-row: ${(props) => props.row + 2};
   width: 160px;
   /* max-width: fit-content; */
   /* max-width: min-content; */
@@ -34,7 +35,15 @@ const FilterDiv = styled.div<{ branch: number }>`
   }
 `;
 
-function Filter({ index, branch }: { index: number; branch: number }) {
+function Filter({
+  index,
+  branch,
+  row,
+}: {
+  index: number;
+  branch: number;
+  row: number;
+}) {
   const filterType = useAppSelector((state) => state.filter[index].type);
   const filterValue = useAppSelector((state) => state.filter[index].value);
   const filterRange = useAppSelector((state) => state.filter[index].range);
@@ -76,7 +85,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
 
   // const displayPrev = filterState.findIndex((f) => f.id === filterSpec.prev);
   return (
-    <FilterDiv className="Filter" branch={branch}>
+    <FilterDiv className="Filter" branch={branch} row={row}>
       <div className="card bg-gray-900 p-4 grid gap-1 border border-secondary">
         <div className="flex justify-center items-center">
           <span className="pr-2 font-xs">Show</span>
@@ -130,9 +139,19 @@ function Filter({ index, branch }: { index: number; branch: number }) {
           <button
             className="btn btn-xs text-white bg-primary text-xl p-0"
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              // si ningun filtro en la misma rama tiene como previo a este filtro
+              if (
+                filterState.some(
+                  (f) =>
+                    f.branch === filterSpec.branch && f.prev === filterSpec.id,
+                )
+              ) {
+                e.currentTarget.classList.add('shake');
+                return;
+              }
               dispatch(incrementIdCounter());
-              dispatch(addFilter({ index, branch, idCounter }));
+              dispatch(addFilter({ index, branch, idCounter, row: row + 1 }));
             }}
           >
             +
@@ -151,12 +170,13 @@ function Filter({ index, branch }: { index: number; branch: number }) {
               // if there isnt another branch created on the same level
               if (
                 filterState.findIndex(
-                  (f) => filterState[index].id === f.prev && f.branch === branch+1,
+                  (f) =>
+                    filterState[index].id === f.prev && f.branch === branch + 1,
                 ) !== -1
               ) {
                 // shake the button and return
                 e.currentTarget.classList.add('shake');
-                return
+                return;
               }
               dispatch(incrementIdCounter());
               dispatch(addFilter({ index, branch: branch + 1, idCounter }));

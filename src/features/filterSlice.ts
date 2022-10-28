@@ -6,6 +6,7 @@ export interface FilterState {
   id: number;
   filteredSheet: WorkSheet | null;
   branch: number;
+  row: number;
   type: string;
   value: string;
   range: string;
@@ -33,6 +34,7 @@ const initialState = [
     filteredSheet: null,
     display: true,
     branch: 0,
+    row: 0,
   },
 ] as Array<FilterState>;
 
@@ -69,6 +71,7 @@ export const filterSlice = createSlice({
     },
     addFilter: (state: Array<FilterState>, action) => {
       let next = action.payload.index + 1;
+      console.log(action.payload.row);
       if (
         state[next]?.merge ||
         state[next]?.branch !== state[action.payload.index].branch
@@ -85,6 +88,10 @@ export const filterSlice = createSlice({
           filteredSheet: state[action.payload.index].filteredSheet,
           display: true,
           branch: action.payload.branch,
+          row:
+            state[action.payload.index].branch === action.payload.branch
+              ? state[action.payload.index].row + 1
+              : state[action.payload.index].row,
         });
       } else {
         state.splice(next, 0, {
@@ -99,6 +106,10 @@ export const filterSlice = createSlice({
           merge: true,
           mergeInto: 0,
           mergeOptions: 'stacked',
+          row:
+            state[action.payload.index].branch === action.payload.branch
+              ? state[action.payload.index].row + 1
+              : state[action.payload.index].row,
         });
       }
       // display needs to be false in the others
@@ -134,8 +145,8 @@ export const filterSlice = createSlice({
           state[index].display = false;
         }
       });
-      state[state.length-1].display = true
-      return action.payload
+      state[state.length - 1].display = true;
+      return action.payload;
     },
   },
 });

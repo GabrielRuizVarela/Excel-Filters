@@ -20,13 +20,7 @@
   width: 100vw;
   min-height: 100vh;
 }
-.Filter > div {
-  /* background-image: url(./assets/bg444.svg); */
-  background-size: cover;
-  /* background-repeat: no-repeat; */
-  /* background-attachment: fixed; */
-  /* background-position: center; */
-}
+
 a {
   font-weight: 500;
   color: #646cff;
