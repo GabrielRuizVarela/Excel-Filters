@@ -5,15 +5,10 @@ import { useAppSelector } from '../app/hooks';
 import filter from '../utils/filterFunctions';
 
 const StyledFileDisplay = styled.div`
-  /* max-width: 100%; */
   overflow: scroll;
   max-width: 70vw;
-  /* border: 2px solid black; */
   padding: 1em;
-  table {
-  }
   tr:nth-child(even) {
-    /* padding: 2rem; */
     background-color: #0000006a;
   }
 `;

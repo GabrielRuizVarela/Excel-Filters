@@ -29,7 +29,6 @@ export const fileSlice = createSlice({
   },
 });
 
-// Action creators are generated for each case reducer function
 export const { updateFile, updateSheet, incrementIdCounter } =
   fileSlice.actions;
 

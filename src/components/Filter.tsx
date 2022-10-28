@@ -78,18 +78,7 @@ function Filter({ index, branch }: { index: number; branch: number }) {
   return (
     <FilterDiv className="Filter" branch={branch}>
       <div className="card bg-gray-900 p-4 grid gap-1 border border-secondary">
-        {/* <div className="flex gap-2 justify-center"> */}
-          {/* <p>
-            Prev:{' '}
-            {
-              // find the previous filter index in the filterState array
-              displayPrev === -1 ? 'File' : displayPrev
-            }
-          </p> */}
-          <p className="filter-title flex justify-center">ID: {index}</p>
-        {/* </div> */}
         <div className="flex justify-center items-center">
-          {/* <div className="text-black"> */}
           <span className="pr-2 font-xs">Show</span>
           <input
             className="checkbox checkbox-accent self-center m-0"
@@ -158,7 +147,17 @@ function Filter({ index, branch }: { index: number; branch: number }) {
           <button
             className="btn btn-xs  text-white bg-primary px-2"
             type="button"
-            onClick={() => {
+            onClick={(e) => {
+              // if there isnt another branch created on the same level
+              if (
+                filterState.findIndex(
+                  (f) => filterState[index].id === f.prev && f.branch === branch+1,
+                ) !== -1
+              ) {
+                // shake the button and return
+                e.currentTarget.classList.add('shake');
+                return
+              }
               dispatch(incrementIdCounter());
               dispatch(addFilter({ index, branch: branch + 1, idCounter }));
             }}
