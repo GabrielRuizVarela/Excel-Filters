@@ -3062,6 +3062,8 @@ This typically indicates that your device does not have a healthy Internet conne
     .UserSection {
       grid-column: 1;
       grid-row: 1;
+      justify-content: center;
+      display: flex;
     }
   }
 `;function _Y(){const e=It(t=>t.filter);return _t(wY,{className:"App",children:[_t(yY,{children:[ye(SW,{}),e.map((t,r)=>t.merge?ye(CW,{index:r,branch:t.branch,row:t.row},t.id):ye(wW,{index:r,branch:t.branch,row:t.row},t.id))]}),ye(xY,{}),ye("div",{className:"fileDispay",children:ye(EW,{index:0})})]})}v1.createRoot(document.getElementById("root")).render(ye(or.StrictMode,{children:ye(cO,{children:ye(db,{store:nR,children:ye(lO,{children:ye(cT,{path:"/",element:ye(_Y,{})})})})})}));
