@@ -76,7 +76,8 @@ function Filter({
     <FilterDiv className="Filter" branch={branch} row={row}>
       <div className="card bg-gray-900 p-4 grid gap-1 border border-secondary">
         <div className="flex justify-center items-center">
-          <span className="pr-2 font-xs">Show</span>
+          <span className='text-primary pr-2'>id:{filterSpec.id}</span>
+          <span className="pr-2 font-xs"> Show</span>
           <input
             className="checkbox checkbox-accent self-center m-0"
             type="checkbox"
@@ -156,8 +157,7 @@ function Filter({
             onClick={(e) => {
               if (
                 filterState.findIndex(
-                  (f) =>
-                    filterSpec.id === f.prev && f.branch === branch + 1,
+                  (f) => filterSpec.id === f.prev && f.branch === branch + 1,
                 ) !== -1
               ) {
                 e.currentTarget.classList.add('shake');
